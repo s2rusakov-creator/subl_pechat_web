@@ -1,6 +1,7 @@
 ---
 import "../styles/casual.css";
 import "../styles/components.css";
+import Analytics from "@vercel/analytics/astro";
 import { site, categorySlug, waOrder } from "../lib/shop.js";
 import { localBusiness, website } from "../lib/schema.js";
 
@@ -68,11 +69,6 @@ const cats = site.categoryMeta ? Object.keys(site.categoryMeta) : [];
       ))
     }
 
-    <!-- Vercel Web Analytics (enable it in Project → Analytics; script 404s harmlessly until then) -->
-    <script is:inline>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -146,14 +142,18 @@ const cats = site.categoryMeta ? Object.keys(site.categoryMeta) : [];
       </svg>
     </a>
 
+    <Analytics />
+
     <script>
+      import { track } from "@vercel/analytics";
+
       // track WhatsApp button clicks as a Vercel Analytics custom event.
       // Delegated, so it covers every wa.me link on the page (buttons + floating FAB).
       document.addEventListener("click", (e) => {
         const a = e.target.closest && e.target.closest('a[href*="wa.me"]');
         if (!a) return;
         const label = (a.getAttribute("aria-label") || a.textContent || "").trim().slice(0, 60);
-        if (window.va) window.va("event", { name: "whatsapp_click", data: { page: location.pathname, label } });
+        track("whatsapp_click", { page: location.pathname, label });
       });
 
       // sticky nav border on scroll
