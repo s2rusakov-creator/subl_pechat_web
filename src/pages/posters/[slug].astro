@@ -1,0 +1,94 @@
+---
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import PosterCard from "../../components/PosterCard.astro";
+import { shop, site, posterSlug, categorySlug, waLink, fromPriceOf } from "../../lib/shop.js";
+import { productSchema, breadcrumb } from "../../lib/schema.js";
+
+export function getStaticPaths() {
+  return shop.posters.map((poster) => ({
+    params: { slug: posterSlug(poster) },
+    props: { poster },
+  }));
+}
+
+const { poster } = Astro.props;
+const from = fromPriceOf(poster);
+const path = `/posters/${posterSlug(poster)}/`;
+const catPath = `/${categorySlug(poster.category)}/`;
+
+const title = `${poster.title} — Metal Poster Printed in Dubai | Prints UAE`;
+const description = `${poster.desc} From AED ${from}, delivered across the UAE in 2–3 days.`;
+
+const orderText = `Hi Prints UAE! I'd like to order the "${poster.title}" metal poster.\nSize: \nName: `;
+const orderHref = waLink(site.whatsapp, orderText);
+
+const related = shop.posters
+  .filter((p) => p.category === poster.category && p.title !== poster.title)
+  .slice(0, 4);
+
+const jsonld = [
+  productSchema(poster, path, from),
+  breadcrumb([
+    { name: "Home", path: "/" },
+    { name: `${poster.category} posters`, path: catPath },
+    { name: poster.title, path },
+  ]),
+];
+---
+<Base title={title} description={description} canonicalPath={path} jsonld={jsonld} ogImage={poster.img} ogType="product">
+  <article class="product">
+    <div class="wrap">
+      <Breadcrumbs
+        items={[
+          { name: "Home", path: "/" },
+          { name: `${poster.category} posters`, path: catPath },
+          { name: poster.title },
+        ]}
+      />
+
+      <div class="product-grid">
+        <div class="product-media" data-reveal>
+          <div class="poster-thumb product-thumb">
+            <img src={poster.img} alt={poster.alt} width="960" height="1280" fetchpriority="high" />
+          </div>
+        </div>
+
+        <div class="product-info" data-reveal>
+          <a class="product-cat" href={catPath}>{poster.category} · Metal poster</a>
+          <h1>{poster.title}</h1>
+          <p class="product-price">from AED {from}</p>
+          <p class="product-desc">{poster.desc}</p>
+
+          <ul class="product-points">
+            <li>🎨 Infused into the metal — colours never peel or fade</li>
+            <li>💦 Waterproof &amp; scratch-proof</li>
+            <li>🪝 Lightweight, mount included</li>
+            <li>🚚 Printed in Dubai, delivered in 2–3 days</li>
+          </ul>
+
+          <div class="product-sizes">
+            <span class="product-sizes-label">Available sizes</span>
+            <div class="product-size-row">
+              {shop.sizes.map((s) => (
+                <span class="size-pill"><strong>{s.name}</strong> {s.dim} · AED {s.price}</span>
+              ))}
+            </div>
+          </div>
+
+          <a class="btn btn-accent product-order" href={orderHref} target="_blank" rel="noopener">Order on WhatsApp</a>
+          <p class="product-note">Tell us the size and we'll confirm the price in a few minutes.</p>
+        </div>
+      </div>
+
+      {related.length > 0 && (
+        <section class="related">
+          <h2><a href={catPath}>More {poster.category.toLowerCase()} posters</a></h2>
+          <div class="posters">
+            {related.map((p, i) => <PosterCard poster={p} index={i} />)}
+          </div>
+        </section>
+      )}
+    </div>
+  </article>
+</Base>

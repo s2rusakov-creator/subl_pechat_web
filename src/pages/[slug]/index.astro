@@ -1,0 +1,61 @@
+---
+import Base from "../../layouts/Base.astro";
+import ServiceContent from "../../components/ServiceContent.astro";
+import CategoryContent from "../../components/CategoryContent.astro";
+import { shop, site, categorySlug, posterSlug, postersInCategory, fromPriceOf } from "../../lib/shop.js";
+import { breadcrumb, itemList, serviceSchema, abs } from "../../lib/schema.js";
+
+export function getStaticPaths() {
+  const services = site.services.map((svc) => ({
+    params: { slug: svc.slug },
+    props: { type: "service", svc },
+  }));
+  const categories = shop.categories.map((cat) => ({
+    params: { slug: categorySlug(cat) },
+    props: { type: "category", cat },
+  }));
+  return [...services, ...categories];
+}
+
+const { type, svc, cat } = Astro.props;
+
+let title, description, path, jsonld, ogImage;
+
+if (type === "service") {
+  path = `/${svc.slug}/`;
+  title = `${svc.title} — Prints UAE`;
+  description = svc.metaDescription;
+  ogImage = svc.img;
+  jsonld = [
+    serviceSchema(svc),
+    breadcrumb([
+      { name: "Home", path: "/" },
+      { name: svc.nav, path },
+    ]),
+  ];
+} else {
+  path = `/${categorySlug(cat)}/`;
+  const meta = site.categoryMeta[cat] || {};
+  const posters = postersInCategory(cat);
+  title = `${cat} Metal Posters, Printed in Dubai | Prints UAE`;
+  description = `${meta.seoLine} ${posters.length} designs from AED ${shop.fromPrice}, waterproof and built to last.`;
+  ogImage = posters[0]?.img;
+  jsonld = [
+    breadcrumb([
+      { name: "Home", path: "/" },
+      { name: `${cat} posters`, path },
+    ]),
+    itemList(
+      `${cat} metal posters`,
+      posters.map((p) => ({
+        path: `/posters/${posterSlug(p)}/`,
+        name: p.title,
+        image: p.img,
+      }))
+    ),
+  ];
+}
+---
+<Base title={title} description={description} canonicalPath={path} jsonld={jsonld} ogImage={ogImage}>
+  {type === "service" ? <ServiceContent svc={svc} /> : <CategoryContent cat={cat} />}
+</Base>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Astro @astrojs/sitemap generates this at build time
+Sitemap: https://printsuae.com/sitemap-index.xml

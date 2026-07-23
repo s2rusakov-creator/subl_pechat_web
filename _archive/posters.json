@@ -1,0 +1,20 @@
+{
+  "_comment": "Edit this file to manage your shop. Set your WhatsApp number once below, then add/remove posters in the list. Prices are the 'from' (smallest size) price in AED.",
+  "whatsapp": "971500000000",
+  "fromPrice": 120,
+  "categories": ["Space", "Nature", "Cars", "Cities"],
+  "posters": [
+    { "title": "Pillars of Creation", "category": "Space", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg/960px-Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg", "alt": "Pillars of Creation nebula" },
+    { "title": "Carina Nebula", "category": "Space", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/HH1159-HH1164_Carina_Nebula_JWST_NIRCam.jpg/960px-HH1159-HH1164_Carina_Nebula_JWST_NIRCam.jpg", "alt": "Carina Nebula" },
+    { "title": "Andromeda", "category": "Space", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Andromeda_Galaxy_%28with_h-alpha%29.jpg/960px-Andromeda_Galaxy_%28with_h-alpha%29.jpg", "alt": "Andromeda Galaxy" },
+    { "title": "Milky Way Nights", "category": "Space", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Night_Sky_from_Hawai%E2%80%98i_and_Chile_%28iotw2225c%29.jpg/960px-Night_Sky_from_Hawai%E2%80%98i_and_Chile_%28iotw2225c%29.jpg", "alt": "Milky Way night sky" },
+    { "title": "Dubai Marina, Night", "category": "Cities", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Dubai_Marina_At_Night_%28251388905%29.jpeg/1280px-Dubai_Marina_At_Night_%28251388905%29.jpeg", "alt": "Dubai Marina at night" },
+    { "title": "Dubai Marina, Day", "category": "Cities", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Dubai_Marina_Skyline_93.jpg/1280px-Dubai_Marina_Skyline_93.jpg", "alt": "Dubai Marina skyline by day" },
+    { "title": "Desert Gold", "category": "Cities", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Dubai_desert_sunset_1.jpg/1280px-Dubai_desert_sunset_1.jpg", "alt": "Dubai desert at sunset" },
+    { "title": "Mountain Mirror", "category": "Nature", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Zagedan_Lakes%2C_Mountain_cirque%2C_Caucasus_Mountains.jpg/960px-Zagedan_Lakes%2C_Mountain_cirque%2C_Caucasus_Mountains.jpg", "alt": "Mountain lake reflection" },
+    { "title": "Island Escape", "category": "Nature", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Havelock_Island%2C_Mangrove_tree_on_the_beach%2C_Andaman_Islands.jpg/960px-Havelock_Island%2C_Mangrove_tree_on_the_beach%2C_Andaman_Islands.jpg", "alt": "Tropical island beach" },
+    { "title": "Cherry Blossoms", "category": "Nature", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Rail_tracks_and_cherry_trees_in_Ashino_Park.jpg/960px-Rail_tracks_and_cherry_trees_in_Ashino_Park.jpg", "alt": "Cherry blossoms over railway tracks" },
+    { "title": "Lions of Mara", "category": "Nature", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Lions_Family_Portrait_Masai_Mara.jpg/960px-Lions_Family_Portrait_Masai_Mara.jpg", "alt": "Lions in the Masai Mara" },
+    { "title": "Classic Lambo", "category": "Cars", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Lamborghini_Islero%2C_Techno_Classica_2018%2C_Essen_%28IMG_9696%29.jpg/960px-Lamborghini_Islero%2C_Techno_Classica_2018%2C_Essen_%28IMG_9696%29.jpg", "alt": "Classic Lamborghini" }
+  ]
+}

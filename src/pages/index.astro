@@ -1,0 +1,277 @@
+---
+import Base from "../layouts/Base.astro";
+import PosterCard from "../components/PosterCard.astro";
+import { shop, site, categorySlug, waOrder } from "../lib/shop.js";
+import { faqPage } from "../lib/schema.js";
+
+const title = "Metal Posters Printed in Dubai | Prints UAE";
+const description =
+  "Cool posters printed on metal in Dubai — vivid, waterproof and built to last. Browse space, nature, car and city designs from AED 120, delivered across the UAE in 2–3 days.";
+
+const jsonld = [faqPage(site.faqs)];
+
+// Hero slider: a few striking designs. Falls back to the first 4 posters.
+const featuredTitles = ["Dubai Marina, Night", "Carina Nebula", "Desert Gold", "Island Escape"];
+const featured = featuredTitles
+  .map((t) => shop.posters.find((p) => p.title === t))
+  .filter(Boolean);
+const slides = featured.length ? featured : shop.posters.slice(0, 4);
+
+// One representative image per category for the "shop by collection" strip.
+const collections = shop.categories.map((c) => ({
+  name: c,
+  slug: categorySlug(c),
+  img: shop.posters.find((p) => p.category === c)?.img,
+  count: shop.posters.filter((p) => p.category === c).length,
+}));
+
+const steps = [
+  { n: "1", t: "Pick a design", d: "Browse the catalogue or send us your own photo — anything can be printed on metal." },
+  { n: "2", t: "Message us the size", d: "Tap Order on WhatsApp. We confirm the price and finish in a few minutes." },
+  { n: "3", t: "We print in Dubai", d: "Your image is dye-infused into an aluminium panel at 199°C in our Al Quoz studio." },
+  { n: "4", t: "Delivered in 2–3 days", d: "Across all seven emirates, with a mount included and ready to hang." },
+];
+---
+
+<Base title={title} description={description} canonicalPath="/" jsonld={jsonld}>
+  <!-- HERO SLIDER -->
+  <section class="hero-slider" id="home" aria-label="Featured metal posters">
+    <div class="slides">
+      {slides.map((p, i) => (
+        <div class:list={["slide", { active: i === 0 }]} style={`background-image:url(${p.img})`} aria-hidden={i !== 0}></div>
+      ))}
+    </div>
+    <div class="hero-scrim"></div>
+
+    <div class="wrap hero-overlay">
+      <span class="hero-tag">🖼️ Metal posters, printed in Dubai</span>
+      <h1>Cool posters, printed on <em>metal</em>.</h1>
+      <p>Vivid, waterproof and seriously tough. Pick a design, pick a size — we print it here in Dubai and deliver in 2–3 days.</p>
+      <div class="hero-cta">
+        <a class="btn btn-accent" href="#posters">Browse posters</a>
+        <a class="btn btn-glass" href="#sizes">See sizes &amp; prices</a>
+      </div>
+      <div class="hero-dots">
+        {slides.map((_, i) => (
+          <button class:list={["dot", { active: i === 0 }]} data-i={i} aria-label={`Show slide ${i + 1}`}></button>
+        ))}
+      </div>
+    </div>
+
+    <button class="hero-arrow prev" aria-label="Previous poster">‹</button>
+    <button class="hero-arrow next" aria-label="Next poster">›</button>
+  </section>
+
+  <!-- QUICK INFO -->
+  <section class="info">
+    <div class="wrap info-grid">
+      <div class="info-card" data-reveal style="--d:0ms">
+        <span class="emoji">🎨</span>
+        <h3>Baked into the metal</h3>
+        <p>The image is infused into the metal, not printed on paper — so colours pop and never peel or fade.</p>
+      </div>
+      <div class="info-card" data-reveal style="--d:80ms">
+        <span class="emoji">💦</span>
+        <h3>Tough &amp; waterproof</h3>
+        <p>Scratch-proof and water-resistant. Hang it in the kitchen, bathroom, or out on the balcony.</p>
+      </div>
+      <div class="info-card" data-reveal style="--d:160ms">
+        <span class="emoji">🪝</span>
+        <h3>Easy to hang</h3>
+        <p>Lightweight with a simple mount included. On your wall in a couple of minutes, no drilling drama.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP BY COLLECTION -->
+  <section class="section collections">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Shop by collection</h2>
+        <p>Curated metal poster collections — tap through to the full set.</p>
+      </div>
+      <div class="collection-grid">
+        {collections.map((c, i) => (
+          <a class="collection-card" href={`/${c.slug}/`} data-reveal style={`--d:${i * 60}ms`}>
+            <div class="collection-thumb" style={`background-image:url(${c.img})`}></div>
+            <div class="collection-meta">
+              <span class="collection-name">{c.name}</span>
+              <span class="collection-count">{c.count} designs →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- POSTERS -->
+  <section class="section" id="posters">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Browse posters</h2>
+        <p>Tap a design to see sizes and order on WhatsApp.</p>
+      </div>
+
+      <div class="chips" id="chips" role="tablist" aria-label="Filter posters">
+        <button class="chip active" data-filter="all">All</button>
+        {shop.categories.map((c) => (
+          <button class="chip" data-filter={c.toLowerCase()}>{c}</button>
+        ))}
+      </div>
+
+      <div class="posters" id="posters-grid">
+        {shop.posters.map((p, i) => <PosterCard poster={p} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section services-band" id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>More than posters</h2>
+        <p>Everything we print is dye-sublimated into metal, right here in Dubai.</p>
+      </div>
+      <div class="services-grid">
+        {site.services.map((s, i) => (
+          <a class="service-card" href={`/${s.slug}/`} data-reveal style={`--d:${i * 70}ms`}>
+            <div class="service-card-img" style={`background-image:url(${s.img})`}></div>
+            <div class="service-card-body">
+              <h3>{s.nav}</h3>
+              <p>{s.lede}</p>
+              <span class="service-card-go">Learn more →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section how" id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>How it works</h2>
+        <p>From a design you like to metal on your wall — in four steps.</p>
+      </div>
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li class="step" data-reveal style={`--d:${i * 70}ms`}>
+            <span class="step-n">{s.n}</span>
+            <h3>{s.t}</h3>
+            <p>{s.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- SIZES -->
+  <section class="sizes-band" id="sizes">
+    <div class="wrap section">
+      <div class="section-head">
+        <h2>Sizes &amp; prices</h2>
+        <p>Any design, any size below.</p>
+      </div>
+      <div class="sizes-grid">
+        {shop.sizes.map((s, i) => (
+          <div class="size-card" data-reveal style={`--d:${i * 50}ms`}>
+            <div class="size-name">{s.name}</div>
+            <div class="size-dim">{s.dim}</div>
+            <div class="size-price">AED {s.price}</div>
+          </div>
+        ))}
+        <div class="size-card size-custom" data-reveal style="--d:200ms">
+          <div class="size-name">Custom</div>
+          <div class="size-dim">Any size you want</div>
+          <a class="btn btn-plain" href={waOrder("Hi Prints UAE! I'd like a custom-size metal poster.")} target="_blank" rel="noopener">Ask us</a>
+        </div>
+      </div>
+      <p class="size-note">Indicative prices — the final quote depends on finish. Message us and we'll confirm in a few minutes.</p>
+    </div>
+  </section>
+
+  <!-- DELIVERY -->
+  <section class="section" id="delivery">
+    <div class="wrap">
+      <div class="delivery" data-reveal>
+        <div>
+          <div class="big">Printed in Dubai, delivered in <em>2–3 days</em>.</div>
+          <p>We deliver across all 7 emirates. Need it sooner? Ask about next-day express within Dubai.</p>
+        </div>
+        <div class="delivery-badges">
+          <div class="delivery-badge"><strong>2–3 days</strong><span>UAE-wide delivery</span></div>
+          <div class="delivery-badge"><strong>Next-day</strong><span>Dubai express</span></div>
+          <div class="delivery-badge"><strong>Free</strong><span>over AED 300</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq" id="faq">
+    <div class="wrap faq-wrap">
+      <div class="section-head">
+        <h2>Frequently asked questions</h2>
+        <p>Everything about metal posters, prints and delivery in the UAE.</p>
+      </div>
+      <div class="faq-list">
+        {site.faqs.map((f) => (
+          <details class="faq-item" data-reveal>
+            <summary>{f.q}<span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a"><p>{f.a}</p></div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <h2>Ready to order?</h2>
+      <p>Send us the design you want and the size — we'll sort the rest.</p>
+      <div class="hero-cta">
+        <a class="btn btn-accent" href={waOrder()} target="_blank" rel="noopener">Message on WhatsApp</a>
+        <a class="btn btn-plain" href={`mailto:${site.email}`}>Email us</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // hero slider
+    const slider = document.querySelector(".hero-slider");
+    if (slider) {
+      const slides = [...slider.querySelectorAll(".slide")];
+      const dots = [...slider.querySelectorAll(".dot")];
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let i = 0, timer;
+      const go = (n) => {
+        i = (n + slides.length) % slides.length;
+        slides.forEach((s, x) => s.classList.toggle("active", x === i));
+        dots.forEach((d, x) => d.classList.toggle("active", x === i));
+      };
+      const start = () => { if (!reduce && slides.length > 1) timer = setInterval(() => go(i + 1), 5000); };
+      const reset = () => { clearInterval(timer); start(); };
+      dots.forEach((d) => d.addEventListener("click", () => { go(Number(d.dataset.i)); reset(); }));
+      slider.querySelector(".prev")?.addEventListener("click", () => { go(i - 1); reset(); });
+      slider.querySelector(".next")?.addEventListener("click", () => { go(i + 1); reset(); });
+      slider.addEventListener("mouseenter", () => clearInterval(timer));
+      slider.addEventListener("mouseleave", start);
+      start();
+    }
+
+    // poster filter
+    const chips = document.querySelectorAll(".chip");
+    const cards = document.querySelectorAll("#posters-grid .poster-card");
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const f = chip.getAttribute("data-filter");
+        chips.forEach((c) => c.classList.toggle("active", c === chip));
+        cards.forEach((card) => {
+          card.style.display = f === "all" || card.getAttribute("data-cat") === f ? "" : "none";
+        });
+      });
+    });
+  </script>
+</Base>

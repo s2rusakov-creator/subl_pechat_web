@@ -1,0 +1,207 @@
+{
+  "_comment": "Business-wide info powering SEO schema (LocalBusiness/Organization), the services pages, category landing copy and the FAQ. Edit real details here once. Prices/posters/sizes live in posters.json.",
+  "name": "Prints UAE",
+  "legalName": "Prints UAE Metal Print Atelier",
+  "tagline": "Metal posters & prints, made in Dubai",
+  "domain": "https://printsuae.com",
+  "whatsapp": "971500000000",
+  "phoneDisplay": "+971 50 000 0000",
+  "email": "hello@printsuae.com",
+  "priceRange": "AED 120 – AED 650",
+  "openingHours": "Sa-Th 09:00-19:00",
+  "geo": { "lat": 25.1279, "lng": 55.2270 },
+  "address": {
+    "street": "Al Quoz Industrial Area 3",
+    "city": "Dubai",
+    "region": "Dubai",
+    "country": "AE",
+    "postalCode": "00000"
+  },
+  "socials": [],
+  "services": [
+    {
+      "slug": "metal-photo-prints",
+      "nav": "Photo prints",
+      "title": "Aluminium Photo Prints Dubai | HD Metal Prints on ChromaLuxe",
+      "h1": "Aluminium photo prints, made in Dubai",
+      "eyebrow": "HD photo prints on aluminium",
+      "lede": "Your photography, dye-infused into ChromaLuxe metal panels — depth, luminosity and permanence that photographic paper cannot reach.",
+      "metaDescription": "HD aluminium photo prints in Dubai on ChromaLuxe panels. Museum-grade metal prints from 15×15 cm to 120×240 cm, 65-year archival rating, 48-hour express, UAE-wide delivery.",
+      "serviceType": "HD metal photo printing",
+      "schemaDescription": "Museum-grade HD photo prints dye-infused into ChromaLuxe aluminium panels, from 15×15 cm to 120×240 cm, produced in Al Quoz, Dubai.",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Zagedan_Lakes%2C_Mountain_cirque%2C_Caucasus_Mountains.jpg/960px-Zagedan_Lakes%2C_Mountain_cirque%2C_Caucasus_Mountains.jpg",
+      "imgAlt": "Landscape photograph printed on a glossy aluminium metal panel",
+      "stats": [
+        { "big": "15–240", "label": "Sizes, cm" },
+        { "big": "65+ yrs", "label": "Archival rating" },
+        { "big": "3", "label": "Surface finishes" },
+        { "big": "48 hrs", "label": "Express option" }
+      ],
+      "sections": [
+        {
+          "h2": "Why photographers choose metal prints",
+          "paras": [
+            "A metal photo print is not paper behind glass — it is the image itself, fused inside the coating of a rigid aluminium panel. Blacks read deeper, highlights carry a subtle metallic luminosity, and the surface needs no glazing, so there is nothing between the viewer and the photograph. For portrait, landscape, architectural and fine-art photographers across Dubai and the UAE, it has become the default for exhibition and client work.",
+            "We print exclusively on ChromaLuxe panels — the industry's reference substrate, with an independently tested display permanence of more than 65 years. Every file is colour-managed against a calibrated ICC profile for metal and soft-proofed before it touches the press."
+          ]
+        },
+        {
+          "h2": "Sizes, finishes and mounting",
+          "list": [
+            "Sizes: from 15×15 cm desk pieces to 120×240 cm single panels; larger works are produced as multi-panel installations with precision-matched seams.",
+            "Finishes: gloss white for maximum vibrancy, matte white for glare-free gallery light, and brushed silver — where highlights reveal the raw metal grain.",
+            "Mounting: hidden float mounts as standard, so the panel appears to hover 15 mm off the wall; standoffs and flush mounts on request."
+          ]
+        },
+        {
+          "h2": "Ordering aluminium prints in Dubai",
+          "paras": [
+            "Email or WhatsApp your file with the size and finish you have in mind. We check resolution, send a colour-managed proof and a firm quote within one working day, then produce in 2–4 working days — or 48 hours on express. Delivery covers all seven Emirates, with white-glove installation available for large works.",
+            "Trade pricing is available for photographers, galleries and interior designers with repeat volume."
+          ]
+        }
+      ],
+      "cta": { "eyebrow": "Start a print", "h2": "Ready to see your work in metal?", "lede": "Send the file, the size and the deadline — proof and quote within one working day.", "wa": "Hi Prints UAE! I'd like a quote for an aluminium photo print." }
+    },
+    {
+      "slug": "metal-signage",
+      "nav": "Signage",
+      "title": "Metal Signage Dubai | Corporate Branding on Aluminium",
+      "h1": "Metal signage that holds your brand",
+      "eyebrow": "Corporate signage & branding",
+      "lede": "Reception logos, wayfinding and branded interior panels on dye-infused aluminium — colour-managed to your guidelines and built to survive daily life in commercial spaces.",
+      "metaDescription": "Corporate metal signage in Dubai: reception logos, wayfinding and branded aluminium panels for offices, hotels and retail. Colour-managed to brand guidelines, installed across the UAE.",
+      "serviceType": "Metal signage and branding",
+      "schemaDescription": "Reception logos, wayfinding and branded aluminium panels for offices, hotels and retail — dye-sublimated, colour-managed and installed across the UAE.",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Dubai_Marina_Skyline_93.jpg/1280px-Dubai_Marina_Skyline_93.jpg",
+      "imgAlt": "Modern Dubai office towers where branded metal signage is installed",
+      "stats": [
+        { "big": "ΔE < 2", "label": "Brand colour match" },
+        { "big": "0", "label": "Glass or lamination" },
+        { "big": "< 2 kg", "label": "Per m², installed" },
+        { "big": "UAE", "label": "Survey & install" }
+      ],
+      "sections": [
+        {
+          "h2": "Signage printed into the metal, not onto it",
+          "paras": [
+            "Most interior signage is vinyl or laminate on a substrate — layers that peel, scratch and dull under cleaning. Sublimated metal signage is different: your logo and brand colours are dye-infused into the coating of an aluminium panel at 199°C. There is nothing on the surface to damage, so reception logos and wayfinding stay sharp through years of daily contact.",
+            "Colour accuracy is the discipline here. We work from your vector artwork and Pantone or brand-guideline references, hold a measured tolerance of ΔE < 2, and keep the profile on file so a panel ordered next year matches the one on your wall today."
+          ]
+        },
+        {
+          "h2": "What we produce",
+          "list": [
+            "Reception and lobby logos — float-mounted or standoff-fixed, gloss, matte or brushed silver.",
+            "Wayfinding and door signage — full suites with consistent colour and typography across every panel.",
+            "Branded interior panels — feature walls, values walls and campaign graphics for offices, hotels, clinics and retail.",
+            "Menu boards and retail displays — wipe-clean surfaces that stay presentable in F&B environments."
+          ]
+        },
+        {
+          "h2": "From site survey to installation",
+          "paras": [
+            "For fit-out contractors, interior designers and facilities teams across Dubai, Abu Dhabi and the wider UAE, we handle measurement, production and white-glove installation as one scope. Standard production is 2–4 working days from approved artwork; phased delivery is available for multi-floor projects."
+          ]
+        }
+      ],
+      "cta": { "eyebrow": "Start a project", "h2": "Put your brand in metal", "lede": "Send your artwork and site details — we reply with a firm quote and colour proof within one working day.", "wa": "Hi Prints UAE! I'd like a quote for metal signage." }
+    },
+    {
+      "slug": "metal-awards",
+      "nav": "Awards & plaques",
+      "title": "Metal Awards & Plaques Dubai | Custom Recognition on Aluminium",
+      "h1": "Awards that outlast the ceremony",
+      "eyebrow": "Awards & recognition",
+      "lede": "Full-colour artwork, engrave-sharp typography and the weight of real metal — recognition pieces dye-infused into aluminium, produced in Dubai on event timelines.",
+      "metaDescription": "Custom metal awards and recognition plaques in Dubai. Dye-infused aluminium trophies with full-colour artwork, engrave-sharp type and weighted bases. Express production, UAE-wide delivery.",
+      "serviceType": "Custom awards and recognition plaques",
+      "schemaDescription": "Custom dye-sublimated aluminium awards, trophies and recognition plaques with full-colour artwork, produced in Al Quoz, Dubai with express options for corporate events.",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Lamborghini_Islero%2C_Techno_Classica_2018%2C_Essen_%28IMG_9696%29.jpg/960px-Lamborghini_Islero%2C_Techno_Classica_2018%2C_Essen_%28IMG_9696%29.jpg",
+      "imgAlt": "Polished metal surface catching light, like a custom aluminium award",
+      "stats": [
+        { "big": "Full CMY", "label": "Colour, not engraving only" },
+        { "big": "1–1000", "label": "Piece runs" },
+        { "big": "48 hrs", "label": "Express production" },
+        { "big": "UAE", "label": "Event delivery" }
+      ],
+      "sections": [
+        {
+          "h2": "Beyond engraved acrylic",
+          "paras": [
+            "Most corporate awards are engraved acrylic or laser-etched steel — one colour, one texture, forgettable by the following quarter. Sublimated metal awards carry full-colour artwork inside the panel itself: brand gradients, photography, portraits of the recipient's work — anything you can design, rendered with the depth and permanence of dye fused into aluminium.",
+            "Type stays engrave-sharp because it is printed at high resolution and infused, not cut. Names, dates and citations remain crisp at small sizes, and the surface never chips or fades."
+          ]
+        },
+        {
+          "h2": "Formats and mounting",
+          "list": [
+            "Desk awards — panels on weighted metal or timber bases, from 15×15 cm.",
+            "Wall plaques — float-mounted recognition walls, employee-of-the-quarter series, donor walls.",
+            "Milestone pieces — retirements, closings, launches; single pieces receive the same colour management as production runs.",
+            "Series & programmes — repeat quarterly or annual awards, with your template kept on file for exact consistency."
+          ]
+        },
+        {
+          "h2": "Built for event deadlines",
+          "paras": [
+            "Award ceremonies do not move, so we plan backwards from your event date. Standard production is 2–4 working days from approved artwork; 48-hour express covers late confirmations, and delivery reaches venues across Dubai, Abu Dhabi and all Emirates. For runs above fifty pieces we produce a physical pre-production sample for sign-off."
+          ]
+        }
+      ],
+      "cta": { "eyebrow": "Start an order", "h2": "Recognition, cast in colour and metal", "lede": "Send your artwork, quantities and event date — quote and design proof within one working day.", "wa": "Hi Prints UAE! I'd like a quote for metal awards." }
+    }
+  ],
+  "categoryMeta": {
+    "Space": {
+      "intro": "Nebulae, galaxies and deep-sky photography printed on metal — the format was made for space. Aluminium holds blacks that paper can't, so star fields and glowing gas read with real depth on your wall.",
+      "seoLine": "Space & astronomy metal posters, printed in Dubai and delivered across the UAE in 2–3 days."
+    },
+    "Nature": {
+      "intro": "Mountains, oceans, forests and wildlife — calm, cinematic nature scenes dye-infused into metal for a glossy, glare-managed finish that stays vivid for decades.",
+      "seoLine": "Nature & landscape metal posters, printed in Dubai and delivered across the UAE in 2–3 days."
+    },
+    "Cars": {
+      "intro": "Supercars and classics in showroom detail, printed on metal for a sharp, glossy finish that suits a garage, office or games room.",
+      "seoLine": "Car & automotive metal posters, printed in Dubai and delivered across the UAE in 2–3 days."
+    },
+    "Cities": {
+      "intro": "Skylines and cityscapes — from Dubai Marina at night to desert sunsets — printed on metal so the lights and colour really shine. A local favourite for homes and offices.",
+      "seoLine": "City & skyline metal posters, printed in Dubai and delivered across the UAE in 2–3 days."
+    }
+  },
+  "faqs": [
+    {
+      "q": "What is a metal poster?",
+      "a": "A metal poster is an image dye-infused into the coating of an aluminium panel using heat and pressure (sublimation), not printed on paper. The colour becomes part of the metal, so it never peels, cracks or fades, and the surface is waterproof and scratch-resistant."
+    },
+    {
+      "q": "How much do metal posters cost in the UAE?",
+      "a": "Prices start at AED 120 for a Small (30×40 cm) poster and go up to AED 650 for XL (100×150 cm). Any design is available in any size, and custom sizes are quoted on request over WhatsApp."
+    },
+    {
+      "q": "How long does delivery take?",
+      "a": "We print in Dubai and deliver across all seven emirates in 2–3 days. Next-day express is available within Dubai, and delivery is free on orders over AED 300."
+    },
+    {
+      "q": "Can I print my own photo or design on metal?",
+      "a": "Yes. Send us your file over WhatsApp or email — we check the resolution, colour-manage it for metal, send a proof, and print it in the size and finish you choose. This is our metal photo print service."
+    },
+    {
+      "q": "How do I hang a metal poster?",
+      "a": "Every poster is lightweight and ships with a simple mount included, so it goes up in a couple of minutes with no drilling drama. Float mounts and standoffs are available for larger pieces."
+    },
+    {
+      "q": "Are metal prints suitable for kitchens and bathrooms?",
+      "a": "Yes — the print is waterproof and humidity-resistant, so kitchens, bathrooms and even shaded balconies are all fine. There is no glass to fog and nothing on the surface to lift in damp air."
+    },
+    {
+      "q": "Do you offer corporate signage and awards?",
+      "a": "Yes. Alongside posters we produce corporate metal signage, branded interior panels and custom metal awards and plaques, all colour-managed and produced in our Dubai studio with express options for event deadlines."
+    },
+    {
+      "q": "How do I place an order?",
+      "a": "Pick a design and size, then tap Order on WhatsApp — the message is pre-filled for you. Tell us the size and we confirm the price and delivery in a few minutes."
+    }
+  ]
+}

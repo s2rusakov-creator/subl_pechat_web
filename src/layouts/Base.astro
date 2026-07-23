@@ -1,0 +1,187 @@
+---
+import "../styles/casual.css";
+import "../styles/components.css";
+import { site, categorySlug, waOrder } from "../lib/shop.js";
+import { localBusiness, website } from "../lib/schema.js";
+
+const {
+  title,
+  description,
+  canonicalPath = "/",
+  jsonld = [],
+  ogImage,
+  ogType = "website",
+} = Astro.props;
+
+const canonical = new URL(canonicalPath, Astro.site);
+const defaultOg =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Dubai_Marina_At_Night_%28251388905%29.jpeg/1280px-Dubai_Marina_At_Night_%28251388905%29.jpeg";
+const ogImg = ogImage || defaultOg;
+
+const waHref = waOrder();
+
+// Global structured data, present on every page.
+const globalSchema = [localBusiness(), website(), ...jsonld];
+
+const cats = site.categoryMeta ? Object.keys(site.categoryMeta) : [];
+---
+
+<!doctype html>
+<html lang="en-AE">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#F0562E" />
+    <meta name="author" content={site.name} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImg} />
+    <meta property="og:locale" content="en_AE" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImg} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    {
+      globalSchema.map((block) => (
+        <script type="application/ld+json" set:html={JSON.stringify(block)} />
+      ))
+    }
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="nav" id="top">
+      <div class="nav-inner">
+        <a class="brand" href="/" aria-label={`${site.name} — home`}>Prints<span>UAE</span></a>
+        <nav aria-label="Main">
+          <ul class="nav-links" id="navLinks">
+            <li><a href="/#posters">Posters</a></li>
+            <li><a href="/metal-photo-prints/">Photo prints</a></li>
+            <li><a href="/metal-signage/">Signage</a></li>
+            <li><a href="/metal-awards/">Awards</a></li>
+            <li><a href="/#faq">FAQ</a></li>
+          </ul>
+        </nav>
+        <div class="nav-actions">
+          <a class="btn btn-accent nav-cta-desktop" href={waHref} target="_blank" rel="noopener">Order on WhatsApp</a>
+          <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/">Prints<span>UAE</span></a>
+          <p>{site.tagline}. Dye-sublimation metal printing, produced in Al&nbsp;Quoz, Dubai.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Shop posters</h4>
+          <ul>
+            {cats.map((c) => (
+              <li><a href={`/${categorySlug(c)}/`}>{c} posters</a></li>
+            ))}
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            {site.services.map((s) => (
+              <li><a href={`/${s.slug}/`}>{s.nav}</a></li>
+            ))}
+            <li><a href="/#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <address>
+            <span>{site.address.street}, {site.address.city}</span>
+            <a href={`tel:${site.phoneDisplay.replace(/\s/g, "")}`}>{site.phoneDisplay}</a>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </address>
+        </div>
+      </div>
+      <div class="wrap footer-base">
+        <span>© 2026 {site.name} — {site.address.city}, UAE</span>
+        <span>Dye, fused into metal at 199°C</span>
+      </div>
+    </footer>
+
+    <a class="wa-fab" href={waHref} target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-2.1c1.8.9 3.7 1.4 5.8 1.4h.1c6.6 0 11.9-5.4 11.9-12S22.6 3 16 3zm0 21.8h-.1c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-4.3 1.1 1.1-4.2-.2-.4C6 19.6 5.5 17.8 5.5 15 5.5 9.2 10.2 4.5 16 4.5S26.5 9.2 26.5 15 21.8 24.8 16 24.8zm5.7-7.4c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6.1c-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1s0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5s0-.4 0-.5-.7-1.6-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/>
+      </svg>
+    </a>
+
+    <script>
+      // sticky nav border on scroll
+      const nav = document.querySelector(".nav");
+      if (nav) {
+        const f = () => nav.classList.toggle("scrolled", window.scrollY > 8);
+        addEventListener("scroll", f, { passive: true });
+        f();
+      }
+      // mobile menu
+      const t = document.getElementById("navToggle");
+      const l = document.getElementById("navLinks");
+      if (t && l) {
+        t.addEventListener("click", () => {
+          const o = l.classList.toggle("open");
+          t.setAttribute("aria-expanded", String(o));
+        });
+        l.addEventListener("click", (e) => {
+          if (e.target.tagName === "A") {
+            l.classList.remove("open");
+            t.setAttribute("aria-expanded", "false");
+          }
+        });
+      }
+      // scroll-reveal — progressive enhancement, respects reduced-motion
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reveals = document.querySelectorAll("[data-reveal]");
+      if (reduce || !("IntersectionObserver" in window)) {
+        reveals.forEach((el) => el.classList.add("in"));
+      } else {
+        const io = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((en) => {
+              if (en.isIntersecting) {
+                en.target.classList.add("in");
+                obs.unobserve(en.target);
+              }
+            });
+          },
+          { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>

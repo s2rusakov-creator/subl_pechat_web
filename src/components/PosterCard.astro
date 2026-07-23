@@ -1,0 +1,22 @@
+---
+import { posterSlug, fromPriceOf } from "../lib/shop.js";
+const { poster, index = 0 } = Astro.props;
+---
+<a
+  class="poster-card"
+  data-cat={poster.category.toLowerCase()}
+  data-reveal
+  style={`--d:${(index % 8) * 45}ms`}
+  href={`/posters/${posterSlug(poster)}/`}
+>
+  <div class="poster-thumb">
+    <img loading="lazy" decoding="async" width="480" height="640" src={poster.img} alt={poster.alt} />
+  </div>
+  <div class="poster-meta">
+    <div class="poster-top">
+      <span class="poster-title">{poster.title}</span>
+      <span class="poster-price">from AED {fromPriceOf(poster)}</span>
+    </div>
+    <div class="poster-cat">{poster.category}</div>
+  </div>
+</a>

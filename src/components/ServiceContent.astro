@@ -1,0 +1,81 @@
+---
+import Breadcrumbs from "./Breadcrumbs.astro";
+import { site, waLink } from "../lib/shop.js";
+const { svc } = Astro.props;
+const others = site.services.filter((s) => s.slug !== svc.slug);
+const waHref = waLink(site.whatsapp, svc.cta.wa);
+const mailHref = `mailto:${site.email}?subject=${encodeURIComponent("Quote — " + svc.nav)}`;
+---
+<article class="service">
+  <section class="page-hero" data-reveal>
+    <div class="wrap">
+      <Breadcrumbs items={[{ name: "Home", path: "/" }, { name: svc.nav }]} />
+      <p class="eyebrow">{svc.eyebrow}</p>
+      <h1>{svc.h1}</h1>
+      <p class="lede">{svc.lede}</p>
+    </div>
+  </section>
+
+  <div class="spec-bar">
+    <div class="wrap spec-bar-inner">
+      {svc.stats.map((s) => (
+        <div class="spec" data-reveal><strong>{s.big}</strong><span>{s.label}</span></div>
+      ))}
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="wrap service-body">
+      <div class="prose">
+        {svc.sections.map((sec) => (
+          <div data-reveal>
+            <h2>{sec.h2}</h2>
+            {sec.paras?.map((p) => <p>{p}</p>)}
+            {sec.list && (
+              <ul>
+                {sec.list.map((li) => {
+                  const idx = li.indexOf(":");
+                  return idx > 0 && idx < 28
+                    ? <li><strong>{li.slice(0, idx)}</strong>{li.slice(idx)}</li>
+                    : <li>{li}</li>;
+                })}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <aside class="service-aside" data-reveal>
+        <div class="aside-card">
+          <img src={svc.img} alt={svc.imgAlt} width="480" height="600" loading="lazy" decoding="async" />
+        </div>
+        <div class="aside-cta">
+          <h3>{svc.cta.h2}</h3>
+          <p>{svc.cta.lede}</p>
+          <a class="btn btn-accent" href={waHref} target="_blank" rel="noopener">WhatsApp us</a>
+          <a class="btn btn-plain" href={mailHref}>Email your brief</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section other-services">
+    <div class="wrap">
+      <h2 class="other-title">Other things we make in metal</h2>
+      <div class="service-links">
+        {others.map((s) => (
+          <a class="service-link" href={`/${s.slug}/`} data-reveal>
+            <span class="service-link-name">{s.nav}</span>
+            <span class="service-link-lede">{s.lede}</span>
+            <span class="service-link-go">Learn more →</span>
+          </a>
+        ))}
+        <a class="service-link" href="/#posters" data-reveal>
+          <span class="service-link-name">Ready-made posters</span>
+          <span class="service-link-lede">Browse our catalogue of metal posters — space, nature, cars and city skylines, from AED 120.</span>
+          <span class="service-link-go">Browse posters →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</article>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="dye" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0FA3C6"/>
+      <stop offset="0.52" stop-color="#D6367F"/>
+      <stop offset="1" stop-color="#E8A20F"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="6" fill="#0E0F12"/>
+  <rect x="12" y="12" width="40" height="40" rx="2" fill="url(#dye)"/>
+  <rect x="12" y="12" width="40" height="40" rx="2" fill="none" stroke="#EEEFF1" stroke-width="2.5"/>
+</svg>

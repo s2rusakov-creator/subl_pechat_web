@@ -1,0 +1,18 @@
+---
+import Base from "../layouts/Base.astro";
+const title = "Page not found (404) — Prints UAE";
+const description = "That page has moved or never existed. Browse our metal posters, photo prints, signage and awards instead.";
+---
+<Base title={title} description={description} canonicalPath="/404">
+  <section class="notfound">
+    <div class="wrap">
+      <p class="eyebrow">Error 404</p>
+      <h1>This wall is empty.</h1>
+      <p class="lede">The page you were after has moved or never existed — but there's plenty of metal to browse.</p>
+      <div class="hero-cta">
+        <a class="btn btn-accent" href="/">Back to home</a>
+        <a class="btn btn-plain" href="/#posters">Browse posters</a>
+      </div>
+    </div>
+  </section>
+</Base>

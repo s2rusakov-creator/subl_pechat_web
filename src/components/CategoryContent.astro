@@ -1,0 +1,37 @@
+---
+import Breadcrumbs from "./Breadcrumbs.astro";
+import PosterCard from "./PosterCard.astro";
+import { shop, site, categorySlug, postersInCategory, waOrder } from "../lib/shop.js";
+const { cat } = Astro.props;
+const meta = site.categoryMeta[cat] || {};
+const posters = postersInCategory(cat);
+const otherCats = shop.categories.filter((c) => c !== cat);
+const waHref = waOrder(`Hi Prints UAE! I'm interested in your ${cat.toLowerCase()} metal posters.`);
+---
+<section class="cat-hero" data-reveal>
+  <div class="wrap">
+    <Breadcrumbs items={[{ name: "Home", path: "/" }, { name: `${cat} posters` }]} />
+    <p class="eyebrow">{cat} · Metal posters</p>
+    <h1>{cat} metal posters, printed in Dubai</h1>
+    <p class="lede">{meta.intro}</p>
+    <div class="cat-hero-cta">
+      <a class="btn btn-accent" href="#grid">See {posters.length} designs</a>
+      <a class="btn btn-plain" href={waHref} target="_blank" rel="noopener">Order on WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="grid">
+  <div class="wrap">
+    <div class="posters">
+      {posters.map((p, i) => <PosterCard poster={p} index={i} />)}
+    </div>
+
+    <div class="cat-crosslinks" data-reveal>
+      <span>More collections:</span>
+      {otherCats.map((c) => (
+        <a href={`/${categorySlug(c)}/`}>{c} posters</a>
+      ))}
+    </div>
+  </div>
+</section>
