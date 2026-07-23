@@ -25,6 +25,7 @@ const waHref = waOrder();
 const globalSchema = [localBusiness(), website(), ...jsonld];
 
 const cats = site.categoryMeta ? Object.keys(site.categoryMeta) : [];
+const gaId = site.ga4 || "";
 ---
 
 <!doctype html>
@@ -63,6 +64,18 @@ const cats = site.categoryMeta ? Object.keys(site.categoryMeta) : [];
       href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    {gaId && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+        <script is:inline define:vars={{ gaId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag("js", new Date());
+          gtag("config", gaId);
+        </script>
+      </>
+    )}
     {
       globalSchema.map((block) => (
         <script type="application/ld+json" set:html={JSON.stringify(block)} />
@@ -153,7 +166,8 @@ const cats = site.categoryMeta ? Object.keys(site.categoryMeta) : [];
         const a = e.target.closest && e.target.closest('a[href*="wa.me"]');
         if (!a) return;
         const label = (a.getAttribute("aria-label") || a.textContent || "").trim().slice(0, 60);
-        track("whatsapp_click", { page: location.pathname, label });
+        track("whatsapp_click", { page: location.pathname, label }); // Vercel (works on Pro)
+        if (window.gtag) window.gtag("event", "whatsapp_click", { page: location.pathname, label }); // GA4
       });
 
       // sticky nav border on scroll
