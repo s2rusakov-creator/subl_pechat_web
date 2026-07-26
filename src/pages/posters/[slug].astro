@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import PosterCard from "../../components/PosterCard.astro";
+import Icon from "../../components/Icon.astro";
 import { shop, site, posterSlug, categorySlug, waLink, fromPriceOf } from "../../lib/shop.js";
 import { productSchema, breadcrumb } from "../../lib/schema.js";
 
@@ -49,9 +50,14 @@ const jsonld = [
 
       <div class="product-grid">
         <div class="product-media" data-reveal>
-          <div class="poster-thumb product-thumb">
-            <img src={poster.img} alt={poster.alt} width="960" height="1280" fetchpriority="high" />
+          <div class="product-stage">
+            <div class="poster-thumb product-thumb" id="productPanel">
+              <img src={poster.img} alt={poster.alt} width="960" height="1280" fetchpriority="high" />
+            </div>
           </div>
+          <p class="product-media-note">
+            Shown as a gloss panel. Matte and brushed-silver finishes are available on request.
+          </p>
         </div>
 
         <div class="product-info" data-reveal>
@@ -61,10 +67,10 @@ const jsonld = [
           <p class="product-desc">{poster.desc}</p>
 
           <ul class="product-points">
-            <li>🎨 Infused into the metal — colours never peel or fade</li>
-            <li>💦 Waterproof &amp; scratch-proof</li>
-            <li>🪝 Lightweight, mount included</li>
-            <li>🚚 Printed in Dubai, delivered in 2–3 days</li>
+            <li><Icon name="layers" size={20} />Infused into the metal — colours never peel or fade</li>
+            <li><Icon name="droplet" size={20} />Waterproof &amp; scratch-proof</li>
+            <li><Icon name="hook" size={20} />Lightweight, mount included</li>
+            <li><Icon name="truck" size={20} />Printed in Dubai, delivered in 2–3 days</li>
           </ul>
 
           <div class="product-sizes">
@@ -77,7 +83,16 @@ const jsonld = [
           </div>
 
           <a class="btn btn-accent product-order" href={orderHref} target="_blank" rel="noopener">Order on WhatsApp</a>
-          <p class="product-note">Tell us the size and we'll confirm the price in a few minutes.</p>
+          <p class="product-note">
+            The message opens pre-filled — just add your size. We reply with the exact price,
+            usually within a few minutes during studio hours ({site.openingHours.replace("Sa-Th", "Sat–Thu ")}).
+          </p>
+
+          <ul class="product-assurance">
+            <li><Icon name="check" size={16} />Mount included — no framing needed</li>
+            <li><Icon name="check" size={16} />Printed in Al Quoz, delivered in 2–3 days</li>
+            <li><Icon name="check" size={16} />Free delivery over AED 300</li>
+          </ul>
         </div>
       </div>
 
