@@ -1,6 +1,7 @@
 ---
 import Breadcrumbs from "./Breadcrumbs.astro";
 import PosterCard from "./PosterCard.astro";
+import Icon from "./Icon.astro";
 import { shop, site, categorySlug, postersInCategory, waOrder } from "../lib/shop.js";
 const { cat } = Astro.props;
 const meta = site.categoryMeta[cat] || {};
@@ -8,7 +9,8 @@ const posters = postersInCategory(cat);
 const otherCats = shop.categories.filter((c) => c !== cat);
 const waHref = waOrder(`Hi Prints UAE! I'm interested in your ${cat.toLowerCase()} metal posters.`);
 ---
-<section class="cat-hero" data-reveal>
+<section class="cat-hero lit-section" data-reveal>
+  <div class="glow glow-top-right" aria-hidden="true"></div>
   <div class="wrap">
     <Breadcrumbs items={[{ name: "Home", path: "/" }, { name: `${cat} posters` }]} />
     <p class="eyebrow">{cat} · Metal posters</p>
@@ -25,6 +27,19 @@ const waHref = waOrder(`Hi Prints UAE! I'm interested in your ${cat.toLowerCase(
   <div class="wrap">
     <div class="posters">
       {posters.map((p, i) => <PosterCard poster={p} index={i} />)}
+    </div>
+
+    <!-- Category pages are search entry points, so someone can land here
+         never having seen the case for metal at all. One line back to it. -->
+    <div class="cat-explainer" data-reveal>
+      <p>
+        <strong>New to metal prints?</strong> The image is fused into the panel at 199°C, so there is
+        no ink layer to peel and no glass to reflect your ceiling lights.
+      </p>
+      <a class="go" href="/#compare">
+        See how it compares to canvas and framed prints
+        <Icon name="arrow" size={14} />
+      </a>
     </div>
 
     <div class="cat-crosslinks" data-reveal>

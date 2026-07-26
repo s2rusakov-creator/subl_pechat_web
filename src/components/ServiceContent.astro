@@ -1,5 +1,6 @@
 ---
 import Breadcrumbs from "./Breadcrumbs.astro";
+import Icon from "./Icon.astro";
 import { site, waLink } from "../lib/shop.js";
 const { svc } = Astro.props;
 const others = site.services.filter((s) => s.slug !== svc.slug);
@@ -7,7 +8,8 @@ const waHref = waLink(site.whatsapp, svc.cta.wa);
 const mailHref = `mailto:${site.email}?subject=${encodeURIComponent("Quote — " + svc.nav)}`;
 ---
 <article class="service">
-  <section class="page-hero" data-reveal>
+  <section class="page-hero lit-section" data-reveal>
+    <div class="glow glow-top-right" aria-hidden="true"></div>
     <div class="wrap">
       <Breadcrumbs items={[{ name: "Home", path: "/" }, { name: svc.nav }]} />
       <p class="eyebrow">{svc.eyebrow}</p>
@@ -19,7 +21,7 @@ const mailHref = `mailto:${site.email}?subject=${encodeURIComponent("Quote — "
   <div class="spec-bar">
     <div class="wrap spec-bar-inner">
       {svc.stats.map((s) => (
-        <div class="spec" data-reveal><strong>{s.big}</strong><span>{s.label}</span></div>
+        <div class="stat" data-reveal><strong>{s.big}</strong><span>{s.label}</span></div>
       ))}
     </div>
   </div>
@@ -65,15 +67,19 @@ const mailHref = `mailto:${site.email}?subject=${encodeURIComponent("Quote — "
       <div class="service-links">
         {others.map((s) => (
           <a class="service-link" href={`/${s.slug}/`} data-reveal>
-            <span class="service-link-name">{s.nav}</span>
+            <span class="service-link-head">
+              <span class="service-link-name">{s.nav}</span>
+              <span class="arrow-btn"><Icon name="arrow" size={16} /></span>
+            </span>
             <span class="service-link-lede">{s.lede}</span>
-            <span class="service-link-go">Learn more →</span>
           </a>
         ))}
         <a class="service-link" href="/#posters" data-reveal>
-          <span class="service-link-name">Ready-made posters</span>
+          <span class="service-link-head">
+            <span class="service-link-name">Ready-made posters</span>
+            <span class="arrow-btn"><Icon name="arrow" size={16} /></span>
+          </span>
           <span class="service-link-lede">Browse our catalogue of metal posters — space, nature, cars and city skylines, from AED 120.</span>
-          <span class="service-link-go">Browse posters →</span>
         </a>
       </div>
     </div>

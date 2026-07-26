@@ -1,5 +1,5 @@
 ---
-import "../styles/casual.css";
+import "../styles/tokens.css";
 import "../styles/components.css";
 import Analytics from "@vercel/analytics/astro";
 import { site, categorySlug, waOrder } from "../lib/shop.js";
@@ -38,7 +38,8 @@ const gaId = site.ga4 || "";
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta name="theme-color" content="#F0562E" />
+    <meta name="theme-color" content="#012624" />
+    <meta name="color-scheme" content="dark" />
     <meta name="author" content={site.name} />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -60,8 +61,9 @@ const gaId = site.ga4 || "";
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin />
+    <!-- Inter 400/500 only — the reference's medium-weight-only strategy. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
@@ -86,10 +88,11 @@ const gaId = site.ga4 || "";
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    <div class="grain" aria-hidden="true"></div>
 
     <header class="nav" id="top">
       <div class="nav-inner">
-        <a class="brand" href="/" aria-label={`${site.name} — home`}>Prints<span>UAE</span></a>
+        <a class="brand" href="/" aria-label={`${site.name} — home`}>Prints <span>UAE</span></a>
         <nav aria-label="Main">
           <ul class="nav-links" id="navLinks">
             <li><a href="/#posters">Posters</a></li>
@@ -115,7 +118,7 @@ const gaId = site.ga4 || "";
     <footer class="footer">
       <div class="wrap footer-grid">
         <div class="footer-brand">
-          <a class="brand" href="/">Prints<span>UAE</span></a>
+          <a class="brand" href="/">Prints <span>UAE</span></a>
           <p>{site.tagline}. Dye-sublimation metal printing, produced in Al&nbsp;Quoz, Dubai.</p>
         </div>
         <div class="footer-col">
@@ -193,15 +196,90 @@ const gaId = site.ga4 || "";
           }
         });
       }
-      // scroll-reveal — progressive enhancement, respects reduced-motion
-      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const reveals = document.querySelectorAll("[data-reveal]");
-      if (reduce || !("IntersectionObserver" in window)) {
-        reveals.forEach((el) => el.classList.add("in"));
-      } else {
-        const io = new IntersectionObserver(
-          (entries, obs) => {
-            entries.forEach((en) => {
+    </script>
+
+    <!-- Specular highlight + tilt on the metal panels. Pointer-driven, so
+         the surfaces behave like reflective metal instead of flat images.
+         Pointer-devices only, rAF-throttled, and skipped under reduced-motion. -->
+    <script is:inline>
+      (function () {
+        if (
+          matchMedia("(prefers-reduced-motion: reduce)").matches ||
+          !matchMedia("(hover: hover) and (pointer: fine)").matches
+        ) return;
+
+        // opts: { tilt, baseRy, baseRx, swing } — panels with a resting tilt
+        // are nudged around it rather than snapped to flat on first hover.
+        function bind(el, opts) {
+          opts = opts || {};
+          var swing = opts.swing || 7;   // degrees; more stops reading as a lit panel
+          var target = null;
+          var queued = false;  // per-element: a shared flag makes handlers eat each other's frames
+
+          el.addEventListener("pointermove", function (e) {
+            var r = el.getBoundingClientRect();
+            target = {
+              mx: ((e.clientX - r.left) / r.width) * 100,
+              my: ((e.clientY - r.top) / r.height) * 100,
+            };
+            if (queued) return;
+            queued = true;
+            requestAnimationFrame(function () {
+              queued = false;
+              if (!target) return;
+              el.style.setProperty("--mx", target.mx.toFixed(1) + "%");
+              el.style.setProperty("--my", target.my.toFixed(1) + "%");
+              if (opts.tilt) {
+                var ry = (opts.baseRy || 0) + ((target.mx - 50) / 50) * swing;
+                var rx = (opts.baseRx || 0) + ((50 - target.my) / 50) * swing * 0.6;
+                el.style.setProperty("--ry", ry.toFixed(2) + "deg");
+                el.style.setProperty("--rx", rx.toFixed(2) + "deg");
+              }
+            });
+          });
+
+          el.addEventListener("pointerleave", function () {
+            target = null;
+            el.style.removeProperty("--mx");
+            el.style.removeProperty("--my");
+            el.style.removeProperty("--rx");
+            el.style.removeProperty("--ry");
+          });
+        }
+
+        document.querySelectorAll(".poster-card").forEach(function (c) {
+          bind(c.querySelector(".poster-thumb") || c);   // specular only
+          bind(c, { tilt: true });
+        });
+
+        // Panels with a resting angle in CSS — keep that angle as the centre.
+        var hero = document.getElementById("heroPanel");
+        if (hero) bind(hero, { tilt: true, baseRy: -13, baseRx: 3, swing: 6 });
+
+        var product = document.getElementById("productPanel");
+        if (product) bind(product, { tilt: true, baseRy: -6, baseRx: 1.5, swing: 5 });
+      })();
+    </script>
+
+    <!-- Scroll-reveal lives in its own dependency-free inline script on
+         purpose: [data-reveal] starts at opacity 0, so if it shared a module
+         with the analytics import, a failed import would blank the page. -->
+    <script is:inline>
+      (function () {
+        var reveals = document.querySelectorAll("[data-reveal]");
+        var show = function () {
+          for (var i = 0; i < reveals.length; i++) reveals[i].classList.add("in");
+        };
+        if (
+          matchMedia("(prefers-reduced-motion: reduce)").matches ||
+          !("IntersectionObserver" in window)
+        ) {
+          show();
+          return;
+        }
+        var io = new IntersectionObserver(
+          function (entries, obs) {
+            entries.forEach(function (en) {
               if (en.isIntersecting) {
                 en.target.classList.add("in");
                 obs.unobserve(en.target);
@@ -210,8 +288,10 @@ const gaId = site.ga4 || "";
           },
           { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
         );
-        reveals.forEach((el) => io.observe(el));
-      }
+        for (var i = 0; i < reveals.length; i++) io.observe(reveals[i]);
+        // Safety net: nothing stays invisible if the observer never fires.
+        setTimeout(show, 2500);
+      })();
     </script>
   </body>
 </html>
