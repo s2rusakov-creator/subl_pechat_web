@@ -443,11 +443,8 @@ const stepImgs = slides.slice(0, 4).map((p) => p.img);
   <!-- FAQ -->
   <section class="section faq" id="faq">
     <div class="wrap faq-wrap">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">FAQ</span>
-          <h2>Frequently asked questions</h2>
-        </div>
+      <div class="faq-head">
+        <h2>Frequently asked questions</h2>
         <p>Everything about metal posters, prints and delivery in the UAE.</p>
       </div>
       <div class="faq-list">
@@ -517,6 +514,62 @@ const stepImgs = slides.slice(0, 4).map((p) => p.img);
       slider.addEventListener("mouseleave", start);
       start();
     }
+
+    // FAQ accordion — <details> has no native open/close animation, so the
+    // panel height is driven here. If this script never runs, the accordion
+    // still opens and closes natively, just without the slide.
+    const faqReduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.querySelectorAll(".faq-item").forEach((item) => {
+      const summary = item.querySelector("summary");
+      const panel = item.querySelector(".faq-a");
+      if (!summary || !panel) return;
+      let busy = false;
+
+      const settle = (done) => {
+        let finished = false;
+        const finish = () => {
+          if (finished) return;
+          finished = true;
+          panel.removeEventListener("transitionend", end);
+          clearTimeout(timer);
+          done();
+        };
+        const end = (e) => {
+          if (e.target === panel && e.propertyName === "height") finish();
+        };
+        panel.addEventListener("transitionend", end);
+        // transitionend never fires if the transition does not actually run —
+        // a backgrounded tab, a hidden element, an interrupted animation.
+        // Without this fallback the item would latch and never reopen.
+        const timer = setTimeout(finish, 600);
+      };
+
+      summary.addEventListener("click", (e) => {
+        if (faqReduce) return;          // let the browser just toggle it
+        e.preventDefault();
+        if (busy) return;
+        busy = true;
+
+        if (item.open) {
+          panel.style.height = panel.scrollHeight + "px";
+          requestAnimationFrame(() => { panel.style.height = "0px"; });
+          settle(() => {
+            item.open = false;
+            panel.style.height = "";
+            busy = false;
+          });
+        } else {
+          item.open = true;             // content must exist before measuring
+          const target = panel.scrollHeight;
+          panel.style.height = "0px";
+          requestAnimationFrame(() => { panel.style.height = target + "px"; });
+          settle(() => {
+            panel.style.height = "";    // back to auto, so reflow stays correct
+            busy = false;
+          });
+        }
+      });
+    });
 
     // poster filter
     const chips = document.querySelectorAll(".chip");

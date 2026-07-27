@@ -101,6 +101,11 @@ function pinnedProcess() {
   // Pin the visual for exactly the distance the step column outruns it, so
   // the panel releases precisely as the last step finishes — never before,
   // and never holding the reader after there is nothing left to read.
+  //
+  // Step activation is driven by this trigger's own progress rather than by
+  // each step's position on screen. Position-based triggers gave the first
+  // step almost no time: it handed over to step 2 the moment the panel
+  // pinned. Progress splits the pinned distance into equal shares instead.
   ScrollTrigger.create({
     trigger: scroller,
     start: "top 18%",
@@ -108,16 +113,10 @@ function pinnedProcess() {
     pin: visual,
     pinSpacing: false,
     invalidateOnRefresh: true,
-  });
-
-  // Each step claims the visual while it occupies the middle of the screen.
-  stepEls.forEach((el, i) => {
-    ScrollTrigger.create({
-      trigger: el,
-      start: "top 62%",
-      end: "bottom 38%",
-      onToggle: (self) => self.isActive && activate(i),
-    });
+    onUpdate: (self) => {
+      const i = Math.min(stepEls.length - 1, Math.floor(self.progress * stepEls.length));
+      activate(i);
+    },
   });
 }
 

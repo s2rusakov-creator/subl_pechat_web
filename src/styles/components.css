@@ -833,13 +833,14 @@
 @media (min-width: 940px) {
   .how-scroller.driven .steps { gap: 0; }
   .how-scroller.driven .step {
-    min-height: 46vh;
+    min-height: 44vh;   /* sets the dwell time per step once pinned */
     display: flex;
     flex-direction: column;
     justify-content: center;
     background: none;
     border-radius: 0;
-    padding: 40px 0 40px 34px;
+    /* text aligns to the column's own left edge — no chip gutter needed */
+    padding: 42px 0;
     border-top: 1px solid var(--line);
     opacity: 0.38;
     transition: opacity 0.5s var(--ease);
@@ -847,21 +848,26 @@
   .how-scroller.driven .step:first-child { border-top: 0; }
   .how-scroller.driven .step.active { opacity: 1; }
   .how-scroller.driven .step::after { display: none; }  /* no lit edge */
-  .how-scroller.driven .step::before {
-    right: auto;
-    left: -14px;
-    bottom: auto;
-    top: 24px;
-    font-size: 7rem;
-    opacity: 0.05;
+  /* The ghost numeral is dropped here: the chip already shows the same
+     digit, so the two stacked on top of each other read as a rendering
+     fault rather than as depth. It stays on the mobile cards. */
+  .how-scroller.driven .step::before { display: none; }
+
+  /* Hover does nothing in narrative mode. These blocks are transparent, so
+     the inherited card hover painted a drop shadow around an invisible box
+     — a phantom card outline — and the number chip sat right on its edge.
+     Steps here are advanced by scroll position, not by the pointer. */
+  .how-scroller.driven .step:hover {
+    transform: none;
+    background: none;
+    box-shadow: none;
   }
+
+  /* Chip runs in normal flow rather than pinned to the left edge, so it
+     cannot touch a boundary at any width. */
   .how-scroller.driven .step-n {
-    position: absolute;
-    left: -22px;
-    top: 44px;
-    width: 44px;
-    height: 44px;
-    margin: 0;
+    position: static;
+    margin: 0 0 22px;
   }
   .how-scroller.driven .step h3 {
     font-size: clamp(1.5rem, 2.4vw, 2.1rem);
@@ -1070,9 +1076,34 @@
   .included-stats { grid-template-columns: 1fr; gap: 20px; }
 }
 
-/* ---------- FAQ ---------- */
-.faq-wrap { max-width: var(--w-narrow); margin-inline: auto; }
-.faq-list { display: grid; gap: 10px; }
+/* ---------- FAQ ----------
+   The heading runs on a wider measure than the question list, and the list
+   is inset inside it. Previously the kicker, heading, lede and every row
+   shared one hard left line, which read as a spreadsheet rather than as a
+   hierarchy. */
+.faq-wrap { max-width: 1040px; margin-inline: auto; }
+
+.faq-head { margin-bottom: clamp(34px, 4.5vw, 56px); }
+.faq-head h2 {
+  font-size: clamp(2.1rem, 5vw, 3.7rem);
+  line-height: 1.02;
+  letter-spacing: -0.042em;
+}
+.faq-head p {
+  margin-top: 20px;
+  font-size: clamp(1.02rem, 1.5vw, 1.2rem);
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 54ch;      /* wide enough that "in the UAE" no longer wraps alone */
+}
+
+/* Inset from the heading measure — this is what breaks the single line. */
+.faq-list {
+  display: grid;
+  gap: 10px;
+  max-width: 860px;
+  margin-inline: auto;
+}
 .faq-item {
   background: var(--surface);
   border-radius: var(--radius);
@@ -1092,19 +1123,44 @@
   gap: 20px;
 }
 .faq-item summary::-webkit-details-marker { display: none; }
-.faq-icon { position: relative; flex: 0 0 auto; width: 14px; height: 14px; }
+.faq-item summary:hover { color: var(--ink); }
+.faq-item summary:hover .faq-icon::before,
+.faq-item summary:hover .faq-icon::after { background: var(--stat); }
+
+.faq-icon {
+  position: relative;
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  transition: transform 0.35s var(--ease);
+}
 .faq-icon::before,
 .faq-icon::after {
   content: "";
   position: absolute;
   background: var(--ink-soft);
-  transition: transform 0.25s var(--ease);
+  transition: transform 0.35s var(--ease), background 0.2s var(--ease);
 }
 .faq-icon::before { top: 6px; left: 0; width: 14px; height: 1.5px; }
 .faq-icon::after { top: 0; left: 6px; width: 1.5px; height: 14px; }
+/* The whole mark rotates as the bar collapses, so + → − reads as a motion
+   rather than as a swap. */
+.faq-item[open] .faq-icon { transform: rotate(180deg); }
 .faq-item[open] .faq-icon::after { transform: scaleY(0); }
-.faq-a { padding: 0 clamp(20px, 3vw, 28px) 24px; color: var(--muted); line-height: 1.55; }
-.faq-a p { max-width: 68ch; }
+
+/* Height is animated by the accordion script. Padding lives on the inner
+   paragraph so that height:0 collapses the panel completely — padding on
+   the wrapper itself would leave a visible strip when closed. */
+.faq-a {
+  overflow: hidden;
+  color: var(--muted);
+  line-height: 1.55;
+  transition: height 0.34s var(--ease);
+}
+.faq-a p { padding: 0 clamp(20px, 3vw, 28px) 24px; max-width: 68ch; }
+@media (prefers-reduced-motion: reduce) {
+  .faq-a { transition: none; }
+}
 
 /* ---------- ambient section lighting ---------- */
 .lit-section { position: relative; overflow: hidden; isolation: isolate; }
