@@ -21,8 +21,12 @@ const catPath = `/${categorySlug(poster.category)}/`;
 const title = `${poster.title} — Metal Poster Printed in Dubai | Prints UAE`;
 const description = `${poster.desc} From AED ${from}, delivered across the UAE in 2–3 days.`;
 
-const orderText = `Hi Prints UAE! I'd like to order the "${poster.title}" metal poster.\nSize: \nName: `;
-const orderHref = waLink(site.whatsapp, orderText);
+// The size line is left blank in the server-rendered link on purpose. The
+// script fills it from the checked radio; without JS the radios cannot drive
+// the link, and a hard-coded size would then contradict what the visitor
+// picked. A blank line is honest either way.
+const orderIntro = `Hi Prints UAE! I'd like to order the "${poster.title}" metal poster.`;
+const orderHref = waLink(site.whatsapp, `${orderIntro}\nSize: \nName: `);
 
 const related = shop.posters
   .filter((p) => p.category === poster.category && p.title !== poster.title)
@@ -63,7 +67,9 @@ const jsonld = [
         <div class="product-info" data-reveal>
           <a class="product-cat" href={catPath}>{poster.category} · Metal poster</a>
           <h1>{poster.title}</h1>
-          <p class="product-price">from AED {from}</p>
+          <p class="product-price">
+            <span class="product-price-prefix" id="pricePrefix">from </span>AED&nbsp;<span id="priceValue">{from}</span>
+          </p>
           <p class="product-desc">{poster.desc}</p>
 
           <ul class="product-points">
@@ -73,19 +79,40 @@ const jsonld = [
             <li><Icon name="truck" size={20} />Printed in Dubai, delivered in 2–3 days</li>
           </ul>
 
-          <div class="product-sizes">
-            <span class="product-sizes-label">Available sizes</span>
+          <fieldset class="product-sizes" id="sizePicker">
+            <legend class="product-sizes-label">Choose a size</legend>
             <div class="product-size-row">
-              {shop.sizes.map((s) => (
-                <span class="size-pill"><strong>{s.name}</strong> {s.dim} · AED {s.price}</span>
+              {shop.sizes.map((s, i) => (
+                <label class="size-pill">
+                  <input
+                    type="radio"
+                    name="poster-size"
+                    value={s.name}
+                    data-dim={s.dim}
+                    data-price={s.price}
+                    checked={i === 0}
+                  />
+                  <span class="size-pill-name">{s.name}</span>
+                  <span class="size-pill-dim">{s.dim}</span>
+                  <span class="size-pill-price">AED {s.price}</span>
+                </label>
               ))}
             </div>
-          </div>
+          </fieldset>
 
-          <a class="btn btn-accent product-order" href={orderHref} target="_blank" rel="noopener">Order on WhatsApp</a>
+          <a
+            class="btn btn-accent product-order"
+            id="orderLink"
+            href={orderHref}
+            data-wa={site.whatsapp}
+            data-intro={orderIntro}
+            target="_blank"
+            rel="noopener"
+          >Order on WhatsApp</a>
           <p class="product-note">
-            The message opens pre-filled — just add your size. We reply with the exact price,
-            usually within a few minutes during studio hours ({site.openingHours.replace("Sa-Th", "Sat–Thu ")}).
+            The message opens with your design and size already written in — just send it.
+            We confirm the price within a few minutes during studio hours
+            ({site.openingHours.replace("Sa-Th", "Sat–Thu ")}).
           </p>
 
           <ul class="product-assurance">
@@ -93,8 +120,50 @@ const jsonld = [
             <li><Icon name="check" size={16} />Printed in Al Quoz, delivered in 2–3 days</li>
             <li><Icon name="check" size={16} />Free delivery over AED 300</li>
           </ul>
+
+          <!-- The highest-value order is someone's own image, and until now
+               there was no route to it from a product page. -->
+          <a class="product-own go" href="/metal-photo-prints/">
+            Rather print your own photo on metal?
+            <Icon name="arrow" size={14} />
+          </a>
         </div>
       </div>
+
+      <script is:inline>
+        // Size picker: keeps the headline price and the WhatsApp message in
+        // sync with the chosen size, so the enquiry that arrives is complete
+        // instead of "Size: ____". Without this script the radios simply do
+        // nothing and the link keeps its blank size line.
+        (function () {
+          var picker = document.getElementById("sizePicker");
+          var link = document.getElementById("orderLink");
+          var priceValue = document.getElementById("priceValue");
+          var pricePrefix = document.getElementById("pricePrefix");
+          if (!picker || !link) return;
+
+          var wa = String(link.dataset.wa || "").replace(/[^0-9]/g, "");
+          var intro = link.dataset.intro || "";
+
+          function sync() {
+            var input = picker.querySelector("input:checked");
+            if (!input) return;
+
+            var name = input.value;
+            var dim = input.dataset.dim;
+            var price = input.dataset.price;
+
+            if (priceValue) priceValue.textContent = price;
+            if (pricePrefix) pricePrefix.textContent = "";   // no longer "from"
+
+            var msg = intro + "\nSize: " + name + " (" + dim + ") — AED " + price + "\nName: ";
+            link.href = "https://wa.me/" + wa + "?text=" + encodeURIComponent(msg);
+          }
+
+          picker.addEventListener("change", sync);
+          sync();   // the first size is pre-checked, so start in sync
+        })();
+      </script>
 
       {related.length > 0 && (
         <section class="related">

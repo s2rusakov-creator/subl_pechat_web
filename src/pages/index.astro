@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import PosterCard from "../components/PosterCard.astro";
 import Icon from "../components/Icon.astro";
+import SizeScale from "../components/SizeScale.astro";
 import { shop, site, categorySlug, waOrder } from "../lib/shop.js";
 import { faqPage } from "../lib/schema.js";
 
@@ -39,8 +40,8 @@ const steps = [
   {
     n: "2",
     t: "Tell us the size",
-    d: "Five standard sizes from 30×40 to 100×150 cm, plus custom. We confirm the exact price on WhatsApp in a few minutes.",
-    badge: "30×40 → 100×150",
+    d: `${["One","Two","Three","Four","Five","Six"][shop.sizes.length - 1] || shop.sizes.length} standard sizes from ${shop.sizes[0].dim} to ${shop.sizes[shop.sizes.length - 1].dim}, plus custom. We confirm the exact price on WhatsApp in a few minutes.`,
+    badge: `${shop.sizes[0].dim.replace(/\s*cm$/, "")} → ${shop.sizes[shop.sizes.length - 1].dim.replace(/\s*cm$/, "")}`,
     sub: "custom sizes on request",
   },
   {
@@ -108,6 +109,7 @@ const stepImgs = slides.slice(0, 4).map((p) => p.img);
               />
             ))}
           </div>
+          <div class="hero-panel-edge" aria-hidden="true"></div>
         </div>
       </div>
     </div>
@@ -412,6 +414,8 @@ const stepImgs = slides.slice(0, 4).map((p) => p.img);
         </div>
       </div>
       <p class="size-note">Indicative prices — the final quote depends on finish. Message us and we'll confirm in a few minutes.</p>
+
+      <div data-reveal><SizeScale /></div>
 
       <!-- What the price covers. Placed here on purpose: hidden extras are
            the last thing that stops someone at the price, so answer it in

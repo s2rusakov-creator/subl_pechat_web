@@ -1,0 +1,59 @@
+---
+// Scale reference. "50 × 70 cm" tells most people nothing about a wall, so
+// the sizes are drawn nested against a 170 cm figure. Dimensions are parsed
+// from the same data that prices come from, so the drawing cannot drift.
+import { shop } from "../lib/shop.js";
+
+const FIGURE_H = 170;   // cm
+const BASE = 175;       // svg baseline (y), 1 unit = 1 cm
+const LEFT = 55;        // where the panels start
+
+const sizes = shop.sizes
+  .map((s) => {
+    const m = String(s.dim).match(/(\d+)\s*[×x]\s*(\d+)/);
+    return m ? { name: s.name, w: +m[1], h: +m[2], price: s.price, dim: s.dim } : null;
+  })
+  .filter(Boolean)
+  .sort((a, b) => b.h - a.h);   // largest first so it sits behind
+
+const widest = Math.max(...sizes.map((s) => s.w));
+const viewW = LEFT + widest + 20;
+---
+<figure class="scale">
+  <svg
+    class="scale-svg"
+    viewBox={`0 0 ${viewW} 190`}
+    role="img"
+    aria-label={`Size comparison against a person 170 cm tall: ${sizes
+      .map((s) => `${s.name} ${s.dim}`)
+      .join(", ")}`}
+  >
+    <!-- floor -->
+    <line x1="0" y1={BASE} x2={viewW} y2={BASE} class="scale-floor" />
+
+    <!-- 170 cm figure -->
+    <g class="scale-figure">
+      <circle cx="22" cy={BASE - FIGURE_H + 9} r="9" />
+      <path
+        d={`M22 ${BASE - FIGURE_H + 20}
+            c -11 0 -13 8 -13 16
+            l 0 34 l 3 0 l 2 ${FIGURE_H - 78}
+            l 16 0 l 2 ${-(FIGURE_H - 78)} l 3 0 l 0 -34
+            c 0 -8 -2 -16 -13 -16 z`}
+      />
+    </g>
+
+    <!-- panels, nested on a shared bottom-left corner -->
+    {sizes.map((s) => (
+      <g class="scale-panel">
+        <rect x={LEFT} y={BASE - s.h} width={s.w} height={s.h} rx="2" />
+        <text x={LEFT + 6} y={BASE - s.h + 11}>{s.name}</text>
+      </g>
+    ))}
+  </svg>
+
+  <figcaption class="scale-caption">
+    Drawn to scale against a person 170&nbsp;cm tall. Every design is available in
+    every size — {sizes.map((s) => `${s.name} ${s.dim}`).join(", ")}, or a custom size on request.
+  </figcaption>
+</figure>

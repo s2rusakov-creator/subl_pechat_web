@@ -324,6 +324,10 @@
   mask-composite: exclude;
 }
 
+/* Panel edge is a phone-only device — hidden until the mobile rules turn it
+   on, so it cannot sit unstyled inside the desktop panel. */
+.hero-panel-edge { display: none; }
+
 /* Depth cue: a second, dimmer panel offset behind the first. */
 .hero-stage::before {
   content: "";
@@ -340,15 +344,88 @@
   .hero-panel { animation: none; }
 }
 @media (max-width: 939px) {
-  .hero-stage { order: -1; }
-  .hero-panel { width: min(62%, 250px); animation: none; transform: rotateY(-7deg); }
+  /* On a phone the panel was almost flat (-7deg) and just read as a picture.
+     Turned hard into perspective it reads as a physical printed panel.
+     These two values are tuned together: measured on the projected quad,
+     perspective 240px with rotateY(-40deg) lands the near bottom corner at
+     59.7deg. Changing one without the other moves that angle. */
+  /* Deliberately a long perspective. The panel's far corner sits ~160px
+     toward the camera, so a short perspective (it was 214px) put that corner
+     almost at the vanishing point and magnified it ~4x — the top-left flew
+     533px off screen. At 900px the worst-case magnification is 1.2 and the
+     projection stays believable. The 60°/45° angles live in the transform
+     itself and are unaffected by this value. */
+  .hero-stage { order: -1; perspective: 900px; }
   .hero-stage::before { display: none; }
+
+  /* A panel standing on the floor, turned away from the viewer.
+     rotateY(45deg) is the turn in the XZ plane; rotateX leans it back so the
+     dihedral angle between the panel and the floor is 60°.
+     No rotateZ on purpose — that is what previously stood the panel on one
+     corner like a diamond. Order matters: the X tilt is applied first, then
+     the whole thing is spun about the world vertical by the Y rotation. */
+  .hero-panel {
+    width: min(58%, 230px);
+    animation: none;
+    transform: rotateY(45deg) rotateX(-30deg);
+    transform-origin: 50% 100%;   /* pivots about its bottom edge, so it stands */
+  }
+
+  /* Aluminium edge — the give-away that it is a panel and not a print. */
+  /* With rotateY(45deg) the LEFT edge is the one facing the viewer
+     (corner depths: TL 160, BL 69 vs TR 23, BR -68), so the aluminium
+     thickness belongs on the left. It sat on the right and was facing away. */
+  .hero-panel-edge {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 7px;
+    z-index: 4;
+    transform: rotateY(-90deg);
+    transform-origin: left center;
+    background: linear-gradient(
+      270deg,
+      rgba(203, 255, 252, 0.5) 0%,
+      rgba(120, 160, 158, 0.55) 42%,
+      rgba(1, 29, 28, 0.9) 100%
+    );
+  }
+
+  /* Contact shadow, so the panel sits in the scene instead of floating. */
+  .hero-stage { position: relative; }
+  /* Sits under the panel's actual footprint, which after the 45° turn spans
+     roughly the middle 40% of the stage rather than its full width. */
+  .hero-stage::after {
+    content: "";
+    position: absolute;
+    left: 24%;
+    right: 26%;
+    bottom: -10px;
+    height: 22px;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0) 72%);
+    filter: blur(5px);
+  }
   /* Tightened so the primary CTA still lands above the fold on a phone. */
   .hero-slider { padding-block: 104px clamp(40px, 7vw, 72px); }
   .hero-inner { gap: 32px; }
   .hero-slider h1 { margin-bottom: 18px; }
   .hero-slider p { margin-bottom: 26px; }
   .hero-dots { margin-top: 28px; }
+}
+
+/* Short phones (≈640px tall and under): the panel alone pushed the primary
+   CTA below the fold. Everything shrinks together — perspective keeps its
+   ~0.97 ratio to the panel width so the 60° corner survives the change. */
+@media (max-width: 939px) and (max-height: 700px) {
+  .hero-slider { padding-block: 74px 28px; }
+  .hero-inner { gap: 18px; }
+  .hero-panel { width: min(50%, 195px); }   /* perspective stays 900px */
+  .hero-slider p { margin-bottom: 20px; }
+  .hero-dots { margin-top: 18px; }
 }
 
 /* ---------- marquee ticker ---------- */
@@ -1031,6 +1108,37 @@
 .size-card.size-custom .btn { padding: 14px 18px; }
 .size-note { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 24px; }
 
+/* ---------- scale reference ---------- */
+.scale {
+  margin-top: clamp(36px, 5vw, 56px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(24px, 3vw, 40px);
+  align-items: center;
+}
+@media (min-width: 820px) { .scale { grid-template-columns: 1.05fr 0.95fr; } }
+.scale-svg { width: 100%; height: auto; max-height: 300px; }
+.scale-floor { stroke: var(--line-hi); stroke-width: 1; }
+.scale-figure { fill: var(--color-slate-deep); opacity: 0.5; }
+.scale-panel rect {
+  fill: rgba(0, 55, 52, 0.35);
+  stroke: var(--line-hi);
+  stroke-width: 1;
+}
+.scale-panel:last-child rect {
+  fill: rgba(4, 76, 71, 0.75);
+  stroke: var(--color-lavender-phosphor);
+}
+.scale-panel text {
+  fill: var(--ink-soft);
+  font-family: var(--font);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.scale-caption { color: var(--muted); line-height: 1.6; font-size: 0.92rem; max-width: 46ch; }
+
 /* ---------- what's included (sits under the price grid) ---------- */
 .included {
   margin-top: clamp(36px, 5vw, 56px);
@@ -1084,25 +1192,35 @@
 .faq-wrap { max-width: 1040px; margin-inline: auto; }
 
 .faq-head { margin-bottom: clamp(34px, 4.5vw, 56px); }
+/* Both lines are sized to run wider than the question column below them —
+   that width difference is the hierarchy. Sizing them by measure alone was
+   not enough: the heading still ended short of the questions' right edge. */
 .faq-head h2 {
-  font-size: clamp(2.1rem, 5vw, 3.7rem);
+  font-size: clamp(2.1rem, 6vw, 4.6rem);
   line-height: 1.02;
-  letter-spacing: -0.042em;
+  letter-spacing: -0.045em;
 }
 .faq-head p {
-  margin-top: 20px;
-  font-size: clamp(1.02rem, 1.5vw, 1.2rem);
-  line-height: 1.5;
+  margin-top: 22px;
+  font-size: clamp(1.05rem, 2.2vw, 1.65rem);
+  line-height: 1.4;
   color: var(--muted);
-  max-width: 54ch;      /* wide enough that "in the UAE" no longer wraps alone */
+  /* No measure cap: capping it wrapped the sentence onto two lines and left
+     it narrower than the question column, which is the opposite of the
+     intent. The 1040px container is the only limit it needs. */
+  max-width: none;
 }
 
-/* Inset from the heading measure — this is what breaks the single line. */
-.faq-list {
-  display: grid;
-  gap: 10px;
-  max-width: 860px;
-  margin-inline: auto;
+/* Narrower than the heading on purpose, and inset inside it. The width is
+   viewport-relative because the heading and lede are too (their clamps are
+   vw-based) — a fixed 720px here stayed put while the text shrank, so around
+   1100px the lede ended up narrower than the questions again. */
+.faq-list { display: grid; gap: 10px; }
+@media (min-width: 900px) {
+  .faq-list {
+    max-width: min(720px, 52vw);
+    margin-inline: auto;
+  }
 }
 .faq-item {
   background: var(--surface);
@@ -1394,9 +1512,10 @@ a.product-cat:hover { color: var(--ink); }
   color: var(--ink-soft);
 }
 .product-points .ico { color: var(--muted); }
-.product-sizes { margin-bottom: 32px; }
+.product-sizes { margin-bottom: 32px; border: 0; padding: 0; min-width: 0; }
 .product-sizes-label {
   display: block;
+  padding: 0;
   font-size: 0.68rem;
   font-weight: 500;
   letter-spacing: 0.15em;
@@ -1405,14 +1524,60 @@ a.product-cat:hover { color: var(--ink); }
   margin-bottom: 16px;
 }
 .product-size-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* Selectable size. Real radios underneath, so keyboard and screen readers
+   get the native control; the pill is just its skin. */
 .size-pill {
+  position: relative;
+  display: grid;
+  gap: 3px;
+  cursor: pointer;
   border-radius: var(--radius-sm);
   box-shadow: inset 0 0 0 1px var(--line);
-  padding: 10px 16px;
-  font-size: 0.85rem;
+  padding: 12px 18px;
+  min-width: 116px;
+  transition: box-shadow 0.2s var(--ease), background 0.2s var(--ease);
+}
+.size-pill input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+.size-pill:hover { box-shadow: inset 0 0 0 1px var(--line-hi); }
+.size-pill-name {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--muted);
 }
-.size-pill strong { font-weight: 500; color: var(--ink); }
+.size-pill-dim { font-size: 0.86rem; color: var(--ink-soft); }
+.size-pill-price { font-size: 0.86rem; font-weight: 500; color: var(--ink); }
+
+.size-pill:has(input:checked) {
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--color-lavender-phosphor);
+}
+.size-pill:has(input:checked) .size-pill-name { color: var(--stat); }
+.size-pill:has(input:focus-visible) {
+  outline: 2px solid var(--color-lavender-phosphor);
+  outline-offset: 3px;
+}
+/* Fallback for engines without :has() — the checked state still reads via
+   the accent colour on the label text. */
+@supports not selector(:has(*)) {
+  .size-pill { box-shadow: inset 0 0 0 1px var(--line-hi); }
+}
+
+.product-price-prefix { color: var(--muted); }
+.product-own {
+  display: inline-flex;
+  margin-top: 26px;
+}
+.product-own:hover { color: var(--ink); }
+.product-own:hover svg { transform: translate(2px, -2px); }
 .product-order { padding: 17px 30px; }
 .product-note { color: var(--muted); font-size: 0.86rem; margin-top: 16px; }
 .related { margin-top: clamp(64px, 9vw, 120px); }
