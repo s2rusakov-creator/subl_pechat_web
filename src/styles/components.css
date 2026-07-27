@@ -1191,7 +1191,10 @@
    hierarchy. */
 .faq-wrap { max-width: 1040px; margin-inline: auto; }
 
-.faq-head { margin-bottom: clamp(34px, 4.5vw, 56px); }
+/* Centred, so the heading, the lede and the question column are concentric.
+   Left-aligning the head while the list stayed centred made their right
+   edges land on the same line by coincidence, which read as a mistake. */
+.faq-head { margin-bottom: clamp(34px, 4.5vw, 56px); text-align: center; }
 /* Both lines are sized to run wider than the question column below them —
    that width difference is the hierarchy. Sizing them by measure alone was
    not enough: the heading still ended short of the questions' right edge. */
@@ -1202,6 +1205,7 @@
 }
 .faq-head p {
   margin-top: 22px;
+  margin-inline: auto;
   font-size: clamp(1.05rem, 2.2vw, 1.65rem);
   line-height: 1.4;
   color: var(--muted);
