@@ -33,7 +33,7 @@ const related = shop.posters
   .slice(0, 4);
 
 const jsonld = [
-  productSchema(poster, path, from),
+  productSchema(poster, path, from, shop.sizes),
   breadcrumb([
     { name: "Home", path: "/" },
     { name: `${poster.category} posters`, path: catPath },

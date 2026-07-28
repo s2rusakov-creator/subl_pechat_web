@@ -1,0 +1,145 @@
+---
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import PosterCard from "../../components/PosterCard.astro";
+import Icon from "../../components/Icon.astro";
+import SizeScale from "../../components/SizeScale.astro";
+import { shop, site, categorySlug, posterSlug, waOrder } from "../../lib/shop.js";
+import { breadcrumb, itemList, abs } from "../../lib/schema.js";
+
+// The full catalogue lives here rather than on the homepage: at 42 designs it
+// was 30% of the landing page and pushed the comparison table and the price
+// list below the point most visitors ever scroll to.
+const count = shop.posters.length;
+
+const title = `All ${count} Metal Posters | Printed in Dubai — Prints UAE`;
+const description =
+  `Browse all ${count} metal poster designs — space, nature, cars, motorcycles, ` +
+  `cities, fantasy and aviation. Printed on aluminium in Dubai from AED 120, ` +
+  `delivered across the UAE in 2–3 days.`;
+
+const byCategory = shop.categories.map((c) => ({
+  name: c,
+  slug: categorySlug(c),
+  count: shop.posters.filter((p) => p.category === c).length,
+}));
+
+// The category pages already emit an ItemList; this page listed 42 designs and
+// emitted none, so the largest product listing on the site was invisible to
+// structured-data crawlers.
+const jsonld = [
+  breadcrumb([
+    { name: "Home", path: "/" },
+    { name: "All posters", path: "/posters/" },
+  ]),
+  itemList(
+    `All ${count} metal poster designs`,
+    shop.posters.map((p) => ({
+      name: p.title,
+      path: `/posters/${posterSlug(p)}/`,
+      image: String(p.img).startsWith("/") ? abs(p.img) : p.img,
+    }))
+  ),
+];
+---
+<Base title={title} description={description} canonicalPath="/posters/" jsonld={jsonld}>
+  <section class="cat-hero lit-section" data-reveal>
+    <div class="glow glow-top-right" aria-hidden="true"></div>
+    <div class="wrap">
+      <Breadcrumbs items={[{ name: "Home", path: "/" }, { name: "All posters" }]} />
+      <p class="eyebrow">Catalogue · {count} designs</p>
+      <h1>Every metal poster we print</h1>
+      <p class="lede">
+        Any design here is available in any size, from 30×40 to 100×150&nbsp;cm.
+        Tap one to see prices and order on WhatsApp — or send us your own photo instead.
+      </p>
+      <div class="cat-hero-cta">
+        <a class="btn btn-accent" href="#grid">See the designs</a>
+        <a class="btn btn-plain" href="/metal-photo-prints/">Print my own photo</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="grid">
+    <div class="wrap">
+      <div class="chips" id="chips" role="tablist" aria-label="Filter posters">
+        <button class="chip active" data-filter="all">All {count}</button>
+        {byCategory.map((c) => (
+          <button class="chip" data-filter={c.name.toLowerCase()}>{c.name} {c.count}</button>
+        ))}
+      </div>
+
+      <div class="posters" id="posters-grid">
+        {shop.posters.map((p, i) => <PosterCard poster={p} index={i} />)}
+      </div>
+
+      <p class="catalogue-empty" id="noResults" hidden>Nothing in that collection yet.</p>
+
+      <!-- The scale guide lives here rather than on the homepage: this is where
+           someone is actually choosing a design and needs to picture the size. -->
+      <div class="section" data-reveal>
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Scale</span>
+            <h2>What each size looks like</h2>
+          </div>
+          <p>Every design is available in all four sizes, plus custom.</p>
+        </div>
+        <SizeScale />
+      </div>
+
+      <div class="cat-explainer" data-reveal>
+        <p>
+          <strong>Want to know how they're made?</strong> The dye turns to gas at 199°C and
+          bonds inside the panel, so there is no ink layer sitting on the surface.
+        </p>
+        <a class="go" href="/how-it-works/">
+          See the full process
+          <Icon name="arrow" size={14} />
+        </a>
+      </div>
+
+      <div class="cat-crosslinks" data-reveal>
+        <span>Browse by collection:</span>
+        {byCategory.map((c) => (
+          <a href={`/${c.slug}/`}>{c.name} posters</a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="contact lit-section">
+    <div class="glow glow-bottom-left" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="eyebrow">Get started</span>
+      <h2>Found one you like?</h2>
+      <p>Send us the design and the size — we confirm the price in a few minutes.</p>
+      <div class="hero-cta">
+        <a class="btn btn-accent" href={waOrder()} target="_blank" rel="noopener">Message on WhatsApp</a>
+        <a class="btn btn-plain" href={`mailto:${site.email}`}>Email us</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Category filter. Same behaviour as the homepage grid had, plus an empty
+    // state — with seven categories it is now possible to filter to nothing.
+    const chips = document.querySelectorAll(".chip");
+    const cards = document.querySelectorAll("#posters-grid .poster-card");
+    const empty = document.getElementById("noResults");
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const f = chip.getAttribute("data-filter");
+        chips.forEach((c) => c.classList.toggle("active", c === chip));
+        let shown = 0;
+        cards.forEach((card) => {
+          const match = f === "all" || card.getAttribute("data-cat") === f;
+          card.style.display = match ? "" : "none";
+          if (match) shown++;
+        });
+        if (empty) empty.hidden = shown > 0;
+      });
+    });
+  </script>
+</Base>

@@ -110,22 +110,40 @@ export function serviceSchema(svc) {
   };
 }
 
-export function productSchema(poster, path, from) {
+export function productSchema(poster, path, from, sizes = []) {
+  // Every design is sold in four sizes at four prices. A single Offer at the
+  // "from" price understated the range; AggregateOffer lets Google show
+  // "AED 120–650" and stops the listed price contradicting the size picker.
+  const prices = sizes.map((s) => Number(s.price)).filter(Number.isFinite);
+  const offers = prices.length
+    ? {
+        "@type": "AggregateOffer",
+        priceCurrency: "AED",
+        lowPrice: String(Math.min(...prices)),
+        highPrice: String(Math.max(...prices)),
+        offerCount: prices.length,
+        availability: "https://schema.org/InStock",
+        url: abs(path),
+        seller: { "@id": BUSINESS_ID },
+      }
+    : {
+        "@type": "Offer",
+        priceCurrency: "AED",
+        price: String(from),
+        availability: "https://schema.org/InStock",
+        url: abs(path),
+        seller: { "@id": BUSINESS_ID },
+      };
+
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name: `${poster.title} — Metal Poster`,
-    image: poster.img,
+    // Absolute, so crawlers can actually fetch it from a relative catalogue path.
+    image: String(poster.img).startsWith("/") ? abs(poster.img) : poster.img,
     description: poster.desc,
     category: poster.category,
     brand: { "@type": "Brand", name: site.name },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "AED",
-      price: String(from),
-      availability: "https://schema.org/InStock",
-      url: abs(path),
-      seller: { "@id": BUSINESS_ID },
-    },
+    offers,
   };
 }

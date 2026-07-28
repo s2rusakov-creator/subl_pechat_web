@@ -37,8 +37,10 @@ const CATEGORY_RULES = [
   [/spaceship|saturn|nebula|galaxy|milky|andromeda|carina|planet|space/i, "Space"],
   [/raptor|f-22|jet|uh-60|helicopter/i, "Aviation"],
   [/dubai|tokyo|skyline|manhattan|marina|city|cyberpunk|street/i, "Cities"],
+  // Bikes before cars: a superbike is a different buyer from a supercar.
+  [/ducati|kawasaki|yamaha|honda|suzuki|bmw ?s1000|panigale|superbike|motorcycle|motorbike/i, "Motorcycles"],
   // "ferr?ari" because an earlier export was spelled "Ferari" with one r.
-  [/911|bugatti|ducati|ferr?ari|kawasaki|lamborghini|mclaren|rolls|porsche/i, "Cars"],
+  [/911|bugatti|ferr?ari|lamborghini|mclaren|rolls|porsche|bugatti|aston|koenigsegg/i, "Cars"],
   [/nature|fuji|fjord|northern|alpine|mountain|ocean|yacht|sailing|eagle|lion|wolf|forest|desert|island/i, "Nature"],
 ];
 
@@ -73,6 +75,55 @@ function titleFrom(file) {
 }
 
 const kb = (n) => `${(n / 1024).toFixed(0)} KB`;
+
+/**
+ * Social share card at public/og-cover.jpg.
+ *
+ * Needed for two reasons: LocalBusiness.image pointed at an og-cover.jpg that
+ * did not exist, and the site-wide fallback preview was a stock Wikimedia photo
+ * of Dubai Marina rather than anything we actually sell.
+ *
+ * 1200×630 because that is what every crawler crops to. JPEG rather than WebP
+ * because link-preview fetchers are the least modern clients on the web.
+ */
+async function buildOgCover(data) {
+  const local = data.posters.filter((p) => String(p.img).startsWith("/posters/"));
+  if (local.length < 3) return;
+
+  // One from each of three different categories, so the card shows range.
+  const seen = new Set();
+  const picks = [];
+  for (const p of local) {
+    if (seen.has(p.category)) continue;
+    seen.add(p.category);
+    picks.push(p);
+    if (picks.length === 3) break;
+  }
+  if (picks.length < 3) return;
+
+  const W = 1200, H = 630, PW = 288, PH = 384, GAP = 48;
+  const startX = Math.round((W - (PW * 3 + GAP * 2)) / 2);
+  const y = Math.round((H - PH) / 2);
+
+  const panels = await Promise.all(
+    picks.map(async (p, i) => ({
+      input: await sharp(path.join("public", p.img.replace(/^\//, "")))
+        .resize(PW, PH, { fit: "cover" })
+        .toBuffer(),
+      left: startX + i * (PW + GAP),
+      top: y,
+    }))
+  );
+
+  await sharp({
+    create: { width: W, height: H, channels: 3, background: { r: 1, g: 38, b: 36 } },
+  })
+    .composite(panels)
+    .jpeg({ quality: 86, mozjpeg: true })
+    .toFile(path.join("public", "og-cover.jpg"));
+
+  console.log(`\nog-cover.jpg rebuilt from: ${picks.map((p) => p.title).join(", ")}`);
+}
 
 async function main() {
   let files;
@@ -144,9 +195,11 @@ async function main() {
     added.push(`${title} → ${category || "TODO"}`);
   }
 
+  await buildOgCover(data);
+
   // Keep the category list in step with what the posters actually use.
   const used = [...new Set(data.posters.map((p) => p.category))].filter((c) => c !== "TODO");
-  const order = ["Space", "Nature", "Cars", "Cities", "Fantasy", "Aviation"];
+  const order = ["Space", "Nature", "Cars", "Motorcycles", "Cities", "Fantasy", "Aviation"];
   data.categories = [
     ...order.filter((c) => used.includes(c)),
     ...used.filter((c) => !order.includes(c)).sort(),

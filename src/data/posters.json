@@ -29,6 +29,7 @@
     "Space",
     "Nature",
     "Cars",
+    "Motorcycles",
     "Cities",
     "Fantasy",
     "Aviation"
@@ -169,7 +170,7 @@
     },
     {
       "title": "Ducati Panigale V4",
-      "category": "Cars",
+      "category": "Motorcycles",
       "img": "/posters/ducati-panigale-v4.webp",
       "alt": "Ducati Panigale V4 — metal poster printed in Dubai",
       "desc": "Bare mechanical detail — trellis, exhaust, brake discs. Continuous tone with no paper grain means the small parts stay legible even at 30×40 cm."
@@ -302,7 +303,7 @@
     },
     {
       "title": "Kawasaki H2",
-      "category": "Cars",
+      "category": "Motorcycles",
       "img": "/posters/kawasaki-h2.webp",
       "alt": "Kawasaki H2 — metal poster printed in Dubai",
       "desc": "Supercharged, and finished in a paint that behaves like a mirror. Printing it on metal is close to printing the material onto itself."

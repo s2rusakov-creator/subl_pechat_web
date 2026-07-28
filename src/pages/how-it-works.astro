@@ -1,0 +1,218 @@
+---
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import Icon from "../components/Icon.astro";
+import { shop, site, waOrder } from "../lib/shop.js";
+import { faqPage, breadcrumb } from "../lib/schema.js";
+
+// Moved off the homepage: the pinned narrative was 1 962px — 17% of the
+// landing page — and its third step repeated what the "Why metal" block
+// already says about 199°C. On its own page it gets a search query of its
+// own and several entry points instead of being scrolled past.
+
+const title = "How Metal Posters Are Made | Dye Sublimation in Dubai — Prints UAE";
+const description =
+  "How a metal poster is made: the dye turns to gas at 199°C and bonds inside the " +
+  "panel's coating, so there is no ink layer on the surface. Four steps from picking " +
+  "a design to delivery across the UAE.";
+
+const steps = [
+  {
+    n: "1",
+    t: "Pick a design",
+    d: `Browse ${shop.posters.length} designs in the catalogue, or send your own photo — we check the resolution before anything is printed.`,
+    badge: `${shop.posters.length} designs`,
+    sub: "or bring your own file",
+  },
+  {
+    n: "2",
+    t: "Tell us the size",
+    d: `${["One","Two","Three","Four","Five","Six"][shop.sizes.length - 1] || shop.sizes.length} standard sizes from ${shop.sizes[0].dim} to ${shop.sizes[shop.sizes.length - 1].dim}, plus custom. We confirm the exact price on WhatsApp in a few minutes.`,
+    badge: `${shop.sizes[0].dim.replace(/\s*cm$/, "")} → ${shop.sizes[shop.sizes.length - 1].dim.replace(/\s*cm$/, "")}`,
+    sub: "custom sizes on request",
+  },
+  {
+    n: "3",
+    t: "We fuse it into metal",
+    d: "In our Al Quoz studio the dye turns to gas at 199°C and bonds inside the panel coating. The image is now part of the metal — there is no ink layer left on top to scratch off.",
+    badge: "199°C",
+    sub: "dye-sublimation, not ink on top",
+  },
+  {
+    n: "4",
+    t: "On your wall in 2–3 days",
+    d: "Delivered across all seven emirates with the mount already included. No framing, no glass, no extra trip to a framer.",
+    badge: "2–3 days",
+    sub: "mount included, ready to hang",
+  },
+];
+
+const stepImgs = [
+  "/posters/tokyo-street.webp",
+  "/posters/ferrari-sf90-spider.webp",
+  "/posters/northern-lights.webp",
+  "/posters/black-dragon.webp",
+];
+
+// The process-related questions live here rather than on the homepage, where
+// they were three of eight and the least relevant to someone still deciding.
+const PROCESS_FAQS = ["How do I hang a metal poster?", "Do you offer corporate signage and awards?", "How do I place an order?"];
+const faqs = site.faqs.filter((f) => PROCESS_FAQS.includes(f.q));
+
+const jsonld = [
+  faqPage(faqs),
+  breadcrumb([
+    { name: "Home", path: "/" },
+    { name: "How it works", path: "/how-it-works/" },
+  ]),
+];
+---
+<Base title={title} description={description} canonicalPath="/how-it-works/" jsonld={jsonld}>
+  <section class="cat-hero lit-section" data-reveal>
+    <div class="glow glow-top-right" aria-hidden="true"></div>
+    <div class="wrap">
+      <Breadcrumbs items={[{ name: "Home", path: "/" }, { name: "How it works" }]} />
+      <p class="eyebrow">Process</p>
+      <h1>How a metal poster is made</h1>
+      <p class="lede">
+        Not printing onto metal — printing <em>into</em> it. Here is what happens between
+        picking a design and hanging it, and why the difference matters once it is on your wall.
+      </p>
+      <div class="cat-hero-cta">
+        <a class="btn btn-accent" href="/posters/">Browse the catalogue</a>
+        <a class="btn btn-plain" href={waOrder()} target="_blank" rel="noopener">Ask us a question</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section how" id="how">
+    <div class="wrap">
+      <div class="how-scroller">
+        <div class="how-visual">
+          <div class="how-panel">
+            <div class="how-panel-stack">
+              {stepImgs.map((img, i) => (
+                <img
+                  class:list={["how-img", { active: i === 0 }]}
+                  src={img}
+                  alt=""
+                  width="896"
+                  height="1200"
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+              ))}
+            </div>
+            <div class="how-heat" aria-hidden="true"></div>
+            <div class="how-readout" aria-hidden="true">
+              {steps.map((s, i) => (
+                <div class:list={["how-readout-item", { active: i === 0 }]}>
+                  <strong>{s.badge}</strong>
+                  <span>{s.sub}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <ol class="steps">
+          {steps.map((s, i) => (
+            <li class:list={["step", { active: i === 0 }]} data-n={s.n}>
+              <span class="step-n">{s.n}</span>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq">
+    <div class="wrap faq-wrap">
+      <div class="faq-head">
+        <h2>Questions about ordering</h2>
+        <p>The practical ones. Everything else is answered on the home page.</p>
+      </div>
+      <div class="faq-list">
+        {faqs.map((f) => (
+          <details class="faq-item" data-reveal>
+            <summary>{f.q}<span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a"><p>{f.a}</p></div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="contact lit-section">
+    <div class="glow glow-bottom-left" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="eyebrow">Get started</span>
+      <h2>Ready when you are</h2>
+      <p>Send the design and the size — we confirm the price in a few minutes.</p>
+      <div class="hero-cta">
+        <a class="btn btn-accent" href={waOrder()} target="_blank" rel="noopener">Message on WhatsApp</a>
+        <a class="btn btn-plain" href="/posters/">See all {shop.posters.length} designs</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Same gating as the homepage: GSAP is desktop-only and ~110 KB. -->
+  <script>
+    const wanted =
+      !matchMedia("(prefers-reduced-motion: reduce)").matches &&
+      matchMedia("(min-width: 940px)").matches;
+
+    if (wanted) {
+      const start = () => import("../scripts/motion.js");
+      if ("requestIdleCallback" in window) requestIdleCallback(start, { timeout: 2000 });
+      else setTimeout(start, 500);
+    }
+  </script>
+
+  <script is:inline>
+    // Accordion slide, same as the homepage FAQ.
+    (function () {
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.querySelectorAll(".faq-item").forEach((item) => {
+        const summary = item.querySelector("summary");
+        const panel = item.querySelector(".faq-a");
+        if (!summary || !panel) return;
+        let busy = false;
+        const settle = (done) => {
+          let finished = false;
+          const finish = () => {
+            if (finished) return;
+            finished = true;
+            panel.removeEventListener("transitionend", end);
+            clearTimeout(timer);
+            done();
+          };
+          const end = (e) => {
+            if (e.target === panel && e.propertyName === "height") finish();
+          };
+          panel.addEventListener("transitionend", end);
+          const timer = setTimeout(finish, 600);
+        };
+        summary.addEventListener("click", (e) => {
+          if (reduce) return;
+          e.preventDefault();
+          if (busy) return;
+          busy = true;
+          if (item.open) {
+            panel.style.height = panel.scrollHeight + "px";
+            requestAnimationFrame(() => { panel.style.height = "0px"; });
+            settle(() => { item.open = false; panel.style.height = ""; busy = false; });
+          } else {
+            item.open = true;
+            const target = panel.scrollHeight;
+            panel.style.height = "0px";
+            requestAnimationFrame(() => { panel.style.height = target + "px"; });
+            settle(() => { panel.style.height = ""; busy = false; });
+          }
+        });
+      });
+    })();
+  </script>
+</Base>
