@@ -4,24 +4,329 @@
   "email": "hello@printsuae.com",
   "fromPrice": 120,
   "sizes": [
-    { "name": "Small", "dim": "30 × 40 cm", "price": 120 },
-    { "name": "Medium", "dim": "50 × 70 cm", "price": 220 },
-    { "name": "Large", "dim": "70 × 100 cm", "price": 380 },
-    { "name": "XL", "dim": "100 × 150 cm", "price": 650 }
+    {
+      "name": "Small",
+      "dim": "30 × 40 cm",
+      "price": 120
+    },
+    {
+      "name": "Medium",
+      "dim": "50 × 70 cm",
+      "price": 220
+    },
+    {
+      "name": "Large",
+      "dim": "70 × 100 cm",
+      "price": 380
+    },
+    {
+      "name": "XL",
+      "dim": "100 × 150 cm",
+      "price": 650
+    }
   ],
-  "categories": ["Space", "Nature", "Cars", "Cities"],
+  "categories": [
+    "Space",
+    "Nature",
+    "Cars",
+    "Cities",
+    "Fantasy",
+    "Aviation"
+  ],
   "posters": [
-    { "title": "Pillars of Creation", "category": "Space", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg/960px-Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg", "alt": "Pillars of Creation nebula metal print", "desc": "The Hubble classic, printed on metal so the nebula's gas and dust glow with real depth. A statement space poster for a living room or studio wall." },
-    { "title": "Carina Nebula", "category": "Space", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/HH1159-HH1164_Carina_Nebula_JWST_NIRCam.jpg/960px-HH1159-HH1164_Carina_Nebula_JWST_NIRCam.jpg", "alt": "Carina Nebula JWST metal print", "desc": "James Webb's view of the Carina Nebula on aluminium — the metal base makes the infrared colours luminous. A bold, modern astronomy print." },
-    { "title": "Andromeda", "category": "Space", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Andromeda_Galaxy_%28with_h-alpha%29.jpg/960px-Andromeda_Galaxy_%28with_h-alpha%29.jpg", "alt": "Andromeda Galaxy metal print", "desc": "Our nearest spiral galaxy, printed edge to edge on metal. Deep blacks and bright star fields that paper simply can't hold." },
-    { "title": "Milky Way Nights", "category": "Space", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Night_Sky_from_Hawai%E2%80%98i_and_Chile_%28iotw2225c%29.jpg/960px-Night_Sky_from_Hawai%E2%80%98i_and_Chile_%28iotw2225c%29.jpg", "alt": "Milky Way night sky metal print", "desc": "The Milky Way arching over a dark sky, printed on metal for a glossy, backlit feel. Calm, cinematic wall art for a bedroom." },
-    { "title": "Dubai Marina, Night", "category": "Cities", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Dubai_Marina_At_Night_%28251388905%29.jpeg/1280px-Dubai_Marina_At_Night_%28251388905%29.jpeg", "alt": "Dubai Marina skyline at night metal print", "desc": "Dubai Marina lit up after dark, printed on metal so the city lights really shine. A local favourite for homes and offices in the UAE." },
-    { "title": "Dubai Marina, Day", "category": "Cities", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Dubai_Marina_Skyline_93.jpg/1280px-Dubai_Marina_Skyline_93.jpg", "alt": "Dubai Marina skyline daytime metal print", "desc": "The Dubai Marina skyline by day on a crisp metal panel. Clean lines and blue sky — a bright, modern piece for any UAE wall." },
-    { "title": "Desert Gold", "category": "Cities", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Dubai_desert_sunset_1.jpg/1280px-Dubai_desert_sunset_1.jpg", "alt": "Dubai desert sunset metal print", "desc": "Golden dunes at sunset in the Dubai desert, printed on metal for warm, glowing tones. A calm, local landscape poster." },
-    { "title": "Mountain Mirror", "category": "Nature", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Zagedan_Lakes%2C_Mountain_cirque%2C_Caucasus_Mountains.jpg/960px-Zagedan_Lakes%2C_Mountain_cirque%2C_Caucasus_Mountains.jpg", "alt": "Mountain lake reflection metal print", "desc": "A still alpine lake mirroring the peaks, printed on metal for extra clarity and shine. A fresh, peaceful nature print." },
-    { "title": "Island Escape", "category": "Nature", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Havelock_Island%2C_Mangrove_tree_on_the_beach%2C_Andaman_Islands.jpg/960px-Havelock_Island%2C_Mangrove_tree_on_the_beach%2C_Andaman_Islands.jpg", "alt": "Tropical island beach metal print", "desc": "Turquoise water and a lone tree on a tropical beach, printed on metal so the colours pop. Holiday calm for your wall." },
-    { "title": "Cherry Blossoms", "category": "Nature", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Rail_tracks_and_cherry_trees_in_Ashino_Park.jpg/960px-Rail_tracks_and_cherry_trees_in_Ashino_Park.jpg", "alt": "Cherry blossom metal print", "desc": "Cherry trees in full bloom over quiet railway tracks, printed on metal for soft pinks with a glossy finish. A gentle, seasonal favourite." },
-    { "title": "Lions of Mara", "category": "Nature", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Lions_Family_Portrait_Masai_Mara.jpg/960px-Lions_Family_Portrait_Masai_Mara.jpg", "alt": "Lion family portrait metal print", "desc": "A lion family in the Masai Mara, printed on metal for rich, warm detail. A striking wildlife poster for a bold room." },
-    { "title": "Classic Lambo", "category": "Cars", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Lamborghini_Islero%2C_Techno_Classica_2018%2C_Essen_%28IMG_9696%29.jpg/960px-Lamborghini_Islero%2C_Techno_Classica_2018%2C_Essen_%28IMG_9696%29.jpg", "alt": "Classic Lamborghini metal print", "desc": "A classic Lamborghini in showroom detail, printed on metal for a sharp, glossy finish. A must-have for a car lover's garage or office." }
+    {
+      "title": "Pillars of Creation",
+      "category": "Space",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg/960px-Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg",
+      "alt": "Pillars of Creation nebula metal print",
+      "desc": "The Hubble classic, printed on metal so the nebula's gas and dust glow with real depth. A statement space poster for a living room or studio wall."
+    },
+    {
+      "title": "Carina Nebula",
+      "category": "Space",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/HH1159-HH1164_Carina_Nebula_JWST_NIRCam.jpg/960px-HH1159-HH1164_Carina_Nebula_JWST_NIRCam.jpg",
+      "alt": "Carina Nebula JWST metal print",
+      "desc": "James Webb's view of the Carina Nebula on aluminium — the metal base makes the infrared colours luminous. A bold, modern astronomy print."
+    },
+    {
+      "title": "Andromeda",
+      "category": "Space",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Andromeda_Galaxy_%28with_h-alpha%29.jpg/960px-Andromeda_Galaxy_%28with_h-alpha%29.jpg",
+      "alt": "Andromeda Galaxy metal print",
+      "desc": "Our nearest spiral galaxy, printed edge to edge on metal. Deep blacks and bright star fields that paper simply can't hold."
+    },
+    {
+      "title": "Milky Way Nights",
+      "category": "Space",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Night_Sky_from_Hawai%E2%80%98i_and_Chile_%28iotw2225c%29.jpg/960px-Night_Sky_from_Hawai%E2%80%98i_and_Chile_%28iotw2225c%29.jpg",
+      "alt": "Milky Way night sky metal print",
+      "desc": "The Milky Way arching over a dark sky, printed on metal for a glossy, backlit feel. Calm, cinematic wall art for a bedroom."
+    },
+    {
+      "title": "Dubai Marina, Night",
+      "category": "Cities",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Dubai_Marina_At_Night_%28251388905%29.jpeg/1280px-Dubai_Marina_At_Night_%28251388905%29.jpeg",
+      "alt": "Dubai Marina skyline at night metal print",
+      "desc": "Dubai Marina lit up after dark, printed on metal so the city lights really shine. A local favourite for homes and offices in the UAE."
+    },
+    {
+      "title": "Dubai Marina, Day",
+      "category": "Cities",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Dubai_Marina_Skyline_93.jpg/1280px-Dubai_Marina_Skyline_93.jpg",
+      "alt": "Dubai Marina skyline daytime metal print",
+      "desc": "The Dubai Marina skyline by day on a crisp metal panel. Clean lines and blue sky — a bright, modern piece for any UAE wall."
+    },
+    {
+      "title": "Desert Gold",
+      "category": "Cities",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Dubai_desert_sunset_1.jpg/1280px-Dubai_desert_sunset_1.jpg",
+      "alt": "Dubai desert sunset metal print",
+      "desc": "Golden dunes at sunset in the Dubai desert, printed on metal for warm, glowing tones. A calm, local landscape poster."
+    },
+    {
+      "title": "Mountain Mirror",
+      "category": "Nature",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Zagedan_Lakes%2C_Mountain_cirque%2C_Caucasus_Mountains.jpg/960px-Zagedan_Lakes%2C_Mountain_cirque%2C_Caucasus_Mountains.jpg",
+      "alt": "Mountain lake reflection metal print",
+      "desc": "A still alpine lake mirroring the peaks, printed on metal for extra clarity and shine. A fresh, peaceful nature print."
+    },
+    {
+      "title": "Island Escape",
+      "category": "Nature",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Havelock_Island%2C_Mangrove_tree_on_the_beach%2C_Andaman_Islands.jpg/960px-Havelock_Island%2C_Mangrove_tree_on_the_beach%2C_Andaman_Islands.jpg",
+      "alt": "Tropical island beach metal print",
+      "desc": "Turquoise water and a lone tree on a tropical beach, printed on metal so the colours pop. Holiday calm for your wall."
+    },
+    {
+      "title": "Cherry Blossoms",
+      "category": "Nature",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Rail_tracks_and_cherry_trees_in_Ashino_Park.jpg/960px-Rail_tracks_and_cherry_trees_in_Ashino_Park.jpg",
+      "alt": "Cherry blossom metal print",
+      "desc": "Cherry trees in full bloom over quiet railway tracks, printed on metal for soft pinks with a glossy finish. A gentle, seasonal favourite."
+    },
+    {
+      "title": "Lions of Mara",
+      "category": "Nature",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Lions_Family_Portrait_Masai_Mara.jpg/960px-Lions_Family_Portrait_Masai_Mara.jpg",
+      "alt": "Lion family portrait metal print",
+      "desc": "A lion family in the Masai Mara, printed on metal for rich, warm detail. A striking wildlife poster for a bold room."
+    },
+    {
+      "title": "Classic Lambo",
+      "category": "Cars",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Lamborghini_Islero%2C_Techno_Classica_2018%2C_Essen_%28IMG_9696%29.jpg/960px-Lamborghini_Islero%2C_Techno_Classica_2018%2C_Essen_%28IMG_9696%29.jpg",
+      "alt": "Classic Lamborghini metal print",
+      "desc": "A classic Lamborghini in showroom detail, printed on metal for a sharp, glossy finish. A must-have for a car lover's garage or office."
+    },
+    {
+      "title": "911 Turbo S",
+      "category": "Cars",
+      "img": "/posters/911-turbo-s.webp",
+      "alt": "911 Turbo S — metal poster printed in Dubai",
+      "desc": "The shape almost everyone can name from its silhouette alone. Metal suits it: the panel holds the reflections along the flanks the way the car's own paint does, without a sheet of glass bouncing the room back at you."
+    },
+    {
+      "title": "Ancient Castle",
+      "category": "Fantasy",
+      "img": "/posters/ancient-fantasy-castle.webp",
+      "alt": "Ancient Castle — metal poster printed in Dubai",
+      "desc": "Stonework, mist and a lot of texture in the mid-tones. The kind of illustration that rewards a larger size — 70×100 cm or up."
+    },
+    {
+      "title": "Ancient Warrior",
+      "category": "Fantasy",
+      "img": "/posters/ancient-warrior.webp",
+      "alt": "Ancient Warrior — metal poster printed in Dubai",
+      "desc": "Armour is metal, so printing it into metal is not just a pun — the panel's own sheen does some of the work the illustrator would otherwise have to fake."
+    },
+    {
+      "title": "Bald Eagle",
+      "category": "Nature",
+      "img": "/posters/bald-eagle.webp",
+      "alt": "Bald Eagle — metal poster printed in Dubai",
+      "desc": "The white head against dark plumage is a brutal contrast step. Metal takes it without blowing out the highlights or blocking up the shadows."
+    },
+    {
+      "title": "Bugatti Chiron",
+      "category": "Cars",
+      "img": "/posters/bugatti-chiron.webp",
+      "alt": "Bugatti Chiron — metal poster printed in Dubai",
+      "desc": "A hypercar built around one number, printed on a surface that keeps its gloss for decades. Deep blacks and hard highlights are exactly what dye-sublimation does better than paper."
+    },
+    {
+      "title": "Dubai Skyline, Dusk",
+      "category": "Cities",
+      "img": "/posters/dubai-skyline-2.webp",
+      "alt": "Dubai Skyline, Dusk — metal poster printed in Dubai",
+      "desc": "The same city an hour later, when the sky still has colour in it. A softer, warmer piece for a bedroom or a hallway."
+    },
+    {
+      "title": "Dubai Skyline",
+      "category": "Cities",
+      "img": "/posters/dubai-skyline.webp",
+      "alt": "Dubai Skyline — metal poster printed in Dubai",
+      "desc": "The view people move here for. City lights on a dark panel glow rather than sit flat, and there is no glass to mirror your own ceiling back over them."
+    },
+    {
+      "title": "Ducati Panigale V4",
+      "category": "Cars",
+      "img": "/posters/ducati-panigale-v4.webp",
+      "alt": "Ducati Panigale V4 — metal poster printed in Dubai",
+      "desc": "Bare mechanical detail — trellis, exhaust, brake discs. Continuous tone with no paper grain means the small parts stay legible even at 30×40 cm."
+    },
+    {
+      "title": "F-22 Raptor",
+      "category": "Aviation",
+      "img": "/posters/f-22-raptor.webp",
+      "alt": "F-22 Raptor — metal poster printed in Dubai",
+      "desc": "Faceted, matte and deliberately hard to see — the opposite of a supercar, and a good test of a print's shadow detail. Metal holds the dark greys apart instead of crushing them into one tone."
+    },
+    {
+      "title": "Ferrari SF90 Spider",
+      "category": "Cars",
+      "img": "/posters/ferrari-sf90-spider.webp",
+      "alt": "Ferrari SF90 Spider — metal poster printed in Dubai",
+      "desc": "Ferrari red is a hard colour to print — most papers dull it. Fused into the panel coating it stays saturated, and it will not shift towards orange in a sunlit room."
+    },
+    {
+      "title": "Japanese Samurai",
+      "category": "Fantasy",
+      "img": "/posters/japanese-samurai.webp",
+      "alt": "Japanese Samurai — metal poster printed in Dubai",
+      "desc": "Lacquered plate, silk cord and a limited palette. Flat areas of strong colour hold perfectly even, with no banding across the larger sizes."
+    },
+    {
+      "title": "Lamborghini Revuelto",
+      "category": "Cars",
+      "img": "/posters/lamborghini-revuelto.webp",
+      "alt": "Lamborghini Revuelto — metal poster printed in Dubai",
+      "desc": "All creases and angles, which is the sort of subject that suffers on canvas — the weave softens every edge. On metal the linework stays sharp at any size."
+    },
+    {
+      "title": "Majestic Wolf",
+      "category": "Nature",
+      "img": "/posters/majestic-wolf.webp",
+      "alt": "Majestic Wolf — metal poster printed in Dubai",
+      "desc": "Grey on grey, which sounds simple and is not. The panel keeps the coat separated from the background instead of letting both settle into the same tone."
+    },
+    {
+      "title": "Manhattan Skyline",
+      "category": "Cities",
+      "img": "/posters/manhattan-skyline.webp",
+      "alt": "Manhattan Skyline — metal poster printed in Dubai",
+      "desc": "Dense, vertical, and full of small bright windows — thousands of tiny highlights that need a surface which will not bleed them together."
+    },
+    {
+      "title": "Futuristic Spaceship",
+      "category": "Space",
+      "img": "/posters/massive-futuristic-spaceship.webp",
+      "alt": "Futuristic Spaceship — metal poster printed in Dubai",
+      "desc": "Hard-surface illustration with lit panel lines against deep space. Nothing here is photographic, which means the linework has to stay crisp — it does."
+    },
+    {
+      "title": "McLaren P1",
+      "category": "Cars",
+      "img": "/posters/mclaren-p1.webp",
+      "alt": "McLaren P1 — metal poster printed in Dubai",
+      "desc": "A shape designed entirely by airflow. The panel's gloss follows the curve of the bodywork, so the print reads as an object rather than as a picture of one."
+    },
+    {
+      "title": "Mount Fuji",
+      "category": "Nature",
+      "img": "/posters/mount-fuji.webp",
+      "alt": "Mount Fuji — metal poster printed in Dubai",
+      "desc": "A snow line against clear sky is where paper prints usually fail — the white flattens. Infused into metal, the snow keeps its gradient and the sky keeps its depth."
+    },
+    {
+      "title": "Northern Lights",
+      "category": "Nature",
+      "img": "/posters/northern-lights.webp",
+      "alt": "Northern Lights — metal poster printed in Dubai",
+      "desc": "Aurora green over a dark sky is exactly the case metal was made for: luminous colour on near-black, with nothing on the surface to scatter it."
+    },
+    {
+      "title": "Norwegian Fjords",
+      "category": "Nature",
+      "img": "/posters/norwegian-fjords.webp",
+      "alt": "Norwegian Fjords — metal poster printed in Dubai",
+      "desc": "Cold water, dark rock, and a lot of empty air. Metal handles the deep tones without going muddy, which is what makes the scale read."
+    },
+    {
+      "title": "Anime Ninja",
+      "category": "Fantasy",
+      "img": "/posters/original-anime-ninja.webp",
+      "alt": "Anime Ninja — metal poster printed in Dubai",
+      "desc": "Hard cel edges and flat colour fills — the exact case where paper grain is most visible and most annoying. There is none here."
+    },
+    {
+      "title": "Powerful Lion",
+      "category": "Nature",
+      "img": "/posters/powerful-lion.webp",
+      "alt": "Powerful Lion — metal poster printed in Dubai",
+      "desc": "Fur is fine detail across the whole frame — the first thing a canvas weave destroys. On a smooth panel every strand stays where the photographer put it."
+    },
+    {
+      "title": "Rolls-Royce Spectre",
+      "category": "Cars",
+      "img": "/posters/rolls-royce-spectre.webp",
+      "alt": "Rolls-Royce Spectre — metal poster printed in Dubai",
+      "desc": "Restraint at scale. Large flat areas of colour show every flaw in a cheap print; on a dye-infused panel they stay perfectly even edge to edge."
+    },
+    {
+      "title": "Snow-Covered Alps",
+      "category": "Nature",
+      "img": "/posters/snow-covered-alpine.webp",
+      "alt": "Snow-Covered Alps — metal poster printed in Dubai",
+      "desc": "High contrast and very little colour, so the print lives or dies on tonal separation. Dye-sublimation keeps the shadowed snow distinct from the lit snow."
+    },
+    {
+      "title": "Tokyo Street",
+      "category": "Cities",
+      "img": "/posters/tokyo-street.webp",
+      "alt": "Tokyo Street — metal poster printed in Dubai",
+      "desc": "Neon, wet asphalt and reflected signage. Saturated colour on near-black is the single best argument for printing on metal instead of paper."
+    },
+    {
+      "title": "UH-60 Black Hawk",
+      "category": "Aviation",
+      "img": "/posters/uh-60.webp",
+      "alt": "UH-60 Black Hawk — metal poster printed in Dubai",
+      "desc": "Utilitarian, purposeful, instantly recognisable to anyone who has been near one. Waterproof and knock-resistant, so a hangar or workshop wall is fair game."
+    },
+    {
+      "title": "Black Dragon",
+      "category": "Fantasy",
+      "img": "/posters/black-dragon.webp",
+      "alt": "Black Dragon — metal poster printed in Dubai",
+      "desc": "Almost entirely dark, which is the hardest thing to print well. On paper it turns to sludge; infused into the panel the scales and shadow stay separate."
+    },
+    {
+      "title": "Kawasaki H2",
+      "category": "Cars",
+      "img": "/posters/kawasaki-h2.webp",
+      "alt": "Kawasaki H2 — metal poster printed in Dubai",
+      "desc": "Supercharged, and finished in a paint that behaves like a mirror. Printing it on metal is close to printing the material onto itself."
+    },
+    {
+      "title": "Open Ocean",
+      "category": "Nature",
+      "img": "/posters/ocean.webp",
+      "alt": "Open Ocean — metal poster printed in Dubai",
+      "desc": "Blue on blue, which needs a wide tonal range to avoid looking like a flat swatch. Also the obvious choice for a bathroom — it is waterproof."
+    },
+    {
+      "title": "Private Jet",
+      "category": "Aviation",
+      "img": "/posters/private-jet.webp",
+      "alt": "Private Jet — metal poster printed in Dubai",
+      "desc": "Polished aluminium against sky. The panel is the same material as the aircraft skin, which is a quiet joke worth making on an office wall."
+    },
+    {
+      "title": "Sailing Yacht",
+      "category": "Nature",
+      "img": "/posters/sailing-yacht.webp",
+      "alt": "Sailing Yacht — metal poster printed in Dubai",
+      "desc": "White sail, dark water, hard horizon. Hangs well in a hallway or a study, and survives coastal humidity without cockling the way paper does."
+    }
   ]
 }

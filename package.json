@@ -10,7 +10,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "posters": "node scripts/optimize-posters.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

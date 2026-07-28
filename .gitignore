@@ -2,6 +2,11 @@
 dist/
 .astro/
 
+# Poster drop folder — multi-MB source exports.
+# Leading slash matters: a bare "posters/" also matches public/posters/, which
+# would silently exclude the optimised WebP the site actually serves.
+/posters/
+
 # dependencies
 node_modules/
 
