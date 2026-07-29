@@ -160,7 +160,9 @@
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 1.1s var(--ease);
+  /* Short relative to the 3s dwell — a 1.1s fade spent a third of each room's
+     time mid-transition, so no frame ever looked settled. */
+  transition: opacity 0.65s var(--ease);
 }
 .hero-room-shot.active { opacity: 1; }
 .hero-room-shot img {
@@ -207,10 +209,36 @@
 
 /* Phones get a crop of the same shot — the full 16:9 room would render the
    panels too small to read. Image on top, copy underneath. */
+/* Room indicators double as a progress bar: the active one fills over the
+   room's dwell time, and the fill reaching the end is what advances the
+   slider. One source of truth, so the bar can never disagree with the fade. */
 .hero-room-dots {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   margin-top: clamp(28px, 3vw, 40px);
+}
+.hero-room-dots .dot {
+  width: 46px;
+  height: 3px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.24);
+  transition: background 0.3s var(--ease);
+}
+.hero-room-dots .dot:hover { background: rgba(255, 255, 255, 0.45); }
+/* Overrides the generic .dot.active rule, which widened the bar — here every
+   track is the same length so the fill reads as elapsed time, not selection. */
+.hero-room-dots .dot.active { width: 46px; background: rgba(255, 255, 255, 0.24); }
+.dot-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: var(--color-lavender-phosphor);
+}
+@media (prefers-reduced-motion: reduce) {
+  /* No autoplay, so no elapsed time to show — mark the current room instead. */
+  .hero-room-dots .dot.active .dot-fill { transform: scaleX(1); }
 }
 
 @media (max-width: 860px) {

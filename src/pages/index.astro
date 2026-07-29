@@ -93,7 +93,7 @@ const featuredPosters = featuredImgs
                 class:list={["dot", { active: i === 0 }]}
                 data-i={i}
                 aria-label={`Show room ${i + 1}`}
-              ></button>
+              ><span class="dot-fill"></span></button>
             ))}
           </div>
         )}
@@ -429,23 +429,64 @@ const featuredPosters = featuredImgs
   <script>
     // Hero rooms: crossfade between interior shots. Pauses on hover so a
     // visitor reading the copy is not interrupted mid-sentence.
+    //
+    // A chained setTimeout rather than setInterval: the previous version could
+    // stack timers, because play() started a new interval without clearing the
+    // old one. A second mouseleave without an intervening mouseenter orphaned
+    // an interval that then kept firing forever, which is why the rooms came in
+    // bursts of two followed by a long gap. Here the clock is restarted by
+    // every change — autoplay, dot click or hover — so the gap is always equal.
     const heroRoom = document.querySelector(".hero-room");
     if (heroRoom) {
       const shots = [...heroRoom.querySelectorAll(".hero-room-shot")];
       const dots = [...heroRoom.querySelectorAll(".hero-room-dots .dot")];
       const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      let cur = 0, timer;
+      const DWELL = 3000;
+      const fills = dots.map((d) => d.querySelector(".dot-fill"));
+      let cur = 0;
+      let bar = null;   // the running fill animation, and the only timer
+
+      const stop = () => { if (bar) bar.pause(); };
+      const resume = () => { if (bar) bar.play(); };
+
+      const run = () => {
+        if (bar) bar.cancel();                    // resets the previous track to empty
+        bar = null;
+        if (still || shots.length < 2 || !fills[cur]) return;
+
+        const a = fills[cur].animate(
+          [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }],
+          { duration: DWELL, easing: "linear", fill: "forwards" }
+        );
+        bar = a;
+
+        // The bar filling IS the schedule — no parallel timer to drift against
+        // it. Driven off the finished promise rather than the finish event:
+        // the event is dispatched from the frame task queue, which a browser
+        // suspends while the tab is hidden, so onfinish can simply never
+        // arrive and the slider stalls. The promise settles regardless.
+        // The identity check stops a superseded animation (dot click) from
+        // advancing the room after it has been replaced.
+        a.finished
+          .then(() => { if (bar === a) show(cur + 1); })
+          .catch(() => {});                       // cancel() rejects; expected
+      };
+
       const show = (n) => {
         cur = (n + shots.length) % shots.length;
         shots.forEach((s, x) => s.classList.toggle("active", x === cur));
         dots.forEach((d, x) => d.classList.toggle("active", x === cur));
+        run();
       };
-      const play = () => { if (!still && shots.length > 1) timer = setInterval(() => show(cur + 1), 6000); };
-      const restart = () => { clearInterval(timer); play(); };
-      dots.forEach((d) => d.addEventListener("click", () => { show(Number(d.dataset.i)); restart(); }));
-      heroRoom.addEventListener("mouseenter", () => clearInterval(timer));
-      heroRoom.addEventListener("mouseleave", play);
-      play();
+
+      dots.forEach((d) => d.addEventListener("click", () => show(Number(d.dataset.i))));
+      heroRoom.addEventListener("mouseenter", stop);
+      heroRoom.addEventListener("mouseleave", resume);
+      // Browsers pause animations in a hidden tab anyway; being explicit keeps
+      // the bar and the visible room in step when the tab comes back.
+      document.addEventListener("visibilitychange", () => (document.hidden ? stop() : resume()));
+
+      run();
     }
 
     // FAQ accordion — <details> has no native open/close animation, so the
