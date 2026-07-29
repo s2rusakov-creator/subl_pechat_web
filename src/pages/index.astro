@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import PosterCard from "../components/PosterCard.astro";
 import Icon from "../components/Icon.astro";
+import roomData from "../data/rooms.json";
 import { shop, site, categorySlug, waOrder } from "../lib/shop.js";
 import { faqPage } from "../lib/schema.js";
 
@@ -24,12 +25,10 @@ const homeFaqs = site.faqs.filter((f) => HOMEPAGE_FAQS.includes(f.q));
 
 const jsonld = [faqPage(homeFaqs)];
 
-// Hero slider: a few striking designs. Falls back to the first 4 posters.
-const featuredTitles = ["Dubai Marina, Night", "Carina Nebula", "Desert Gold", "Island Escape"];
-const featured = featuredTitles
-  .map((t) => shop.posters.find((p) => p.title === t))
-  .filter(Boolean);
-const slides = featured.length ? featured : shop.posters.slice(0, 4);
+// Hero interiors come from data, not from this file: `npm run rooms` writes
+// the list, so adding a room is a drop-and-run rather than a code change.
+// Every panel on these walls is a real catalogue design — nothing unbuyable.
+const rooms = roomData.rooms;
 
 // One representative image per category for the "shop by collection" strip.
 const collections = shop.categories.map((c) => ({
@@ -55,57 +54,51 @@ const featuredPosters = featuredImgs
 ---
 
 <Base title={title} description={description} canonicalPath="/" jsonld={jsonld}>
-  <!-- HERO -->
-  <section class="hero-slider" id="home" aria-label="Featured metal posters">
-    <div class="slides" aria-hidden="true">
-      {slides.map((p, i) => (
-        <div class:list={["slide", { active: i === 0 }]} style={`background-image:url(${p.img})`}></div>
+  <!-- HERO — the product in a room, not a floating panel.
+       The floating panel is gone: with two panels already on the wall, a third
+       hovering next to them read as a mistake rather than as a showcase. -->
+  <section class="hero-room" id="home">
+    <div class="hero-room-stage">
+      {rooms.map((r, i) => (
+        <picture class:list={["hero-room-shot", { active: i === 0 }]}>
+          <source media="(max-width: 860px)" srcset={`/rooms/${r.file}-mobile.webp`} />
+          <img
+            src={`/rooms/${r.file}.webp`}
+            alt={r.alt}
+            width="1672"
+            height="941"
+            fetchpriority={i === 0 ? "high" : undefined}
+            loading={i === 0 ? "eager" : "lazy"}
+            decoding="async"
+          />
+        </picture>
       ))}
     </div>
-    <div class="hero-scrim"></div>
-    <div class="glow hero-glow-a" aria-hidden="true"></div>
-    <div class="glow hero-glow-b" aria-hidden="true"></div>
-    <div class="hero-sheen" aria-hidden="true"></div>
+    <div class="hero-room-scrim" aria-hidden="true"></div>
 
-    <div class="wrap hero-inner">
+    <div class="wrap hero-room-inner">
       <div class="hero-copy">
         <span class="eyebrow">Prints UAE — Al Quoz, Dubai</span>
         <h1>Posters, fused into <em class="chrome">metal</em></h1>
         <p>Vivid, waterproof and seriously tough. Pick a design, pick a size — we print it here in Dubai and deliver in 2–3 days.</p>
         <div class="hero-cta">
-          <a class="btn btn-accent" href="#posters">Browse posters</a>
+          <a class="btn btn-accent" href="/posters/">Browse posters</a>
           <a class="btn btn-glass" href="#sizes">Sizes &amp; prices</a>
         </div>
-        <div class="hero-dots">
-          {slides.map((_, i) => (
-            <button class:list={["dot", { active: i === 0 }]} data-i={i} aria-label={`Show slide ${i + 1}`}></button>
-          ))}
-        </div>
-      </div>
 
-      <div class="hero-stage">
-        <div class="hero-panel" id="heroPanel">
-          <div class="hero-panel-stack">
-            {slides.map((p, i) => (
-              <img
-                class:list={[{ active: i === 0 }]}
-                src={p.img}
-                alt={i === 0 ? p.alt : ""}
-                width="800"
-                height="1066"
-                fetchpriority={i === 0 ? "high" : undefined}
-                loading={i === 0 ? "eager" : "lazy"}
-                decoding="async"
-              />
+        {rooms.length > 1 && (
+          <div class="hero-room-dots">
+            {rooms.map((r, i) => (
+              <button
+                class:list={["dot", { active: i === 0 }]}
+                data-i={i}
+                aria-label={`Show room ${i + 1}`}
+              ></button>
             ))}
           </div>
-          <div class="hero-panel-edge" aria-hidden="true"></div>
-        </div>
+        )}
       </div>
     </div>
-
-    <button class="hero-arrow prev" aria-label="Previous poster">‹</button>
-    <button class="hero-arrow next" aria-label="Next poster">›</button>
   </section>
 
   <!-- TICKER -->
@@ -434,28 +427,25 @@ const featuredPosters = featuredImgs
   </script>
 
   <script>
-    // hero slider — drives the blurred backdrop, the dots and the panel
-    const slider = document.querySelector(".hero-slider");
-    if (slider) {
-      const slides = [...slider.querySelectorAll(".slide")];
-      const dots = [...slider.querySelectorAll(".dot")];
-      const panels = [...slider.querySelectorAll(".hero-panel-stack img")];
-      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      let i = 0, timer;
-      const go = (n) => {
-        i = (n + slides.length) % slides.length;
-        slides.forEach((s, x) => s.classList.toggle("active", x === i));
-        dots.forEach((d, x) => d.classList.toggle("active", x === i));
-        panels.forEach((p, x) => p.classList.toggle("active", x === i));
+    // Hero rooms: crossfade between interior shots. Pauses on hover so a
+    // visitor reading the copy is not interrupted mid-sentence.
+    const heroRoom = document.querySelector(".hero-room");
+    if (heroRoom) {
+      const shots = [...heroRoom.querySelectorAll(".hero-room-shot")];
+      const dots = [...heroRoom.querySelectorAll(".hero-room-dots .dot")];
+      const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let cur = 0, timer;
+      const show = (n) => {
+        cur = (n + shots.length) % shots.length;
+        shots.forEach((s, x) => s.classList.toggle("active", x === cur));
+        dots.forEach((d, x) => d.classList.toggle("active", x === cur));
       };
-      const start = () => { if (!reduce && slides.length > 1) timer = setInterval(() => go(i + 1), 5000); };
-      const reset = () => { clearInterval(timer); start(); };
-      dots.forEach((d) => d.addEventListener("click", () => { go(Number(d.dataset.i)); reset(); }));
-      slider.querySelector(".prev")?.addEventListener("click", () => { go(i - 1); reset(); });
-      slider.querySelector(".next")?.addEventListener("click", () => { go(i + 1); reset(); });
-      slider.addEventListener("mouseenter", () => clearInterval(timer));
-      slider.addEventListener("mouseleave", start);
-      start();
+      const play = () => { if (!still && shots.length > 1) timer = setInterval(() => show(cur + 1), 6000); };
+      const restart = () => { clearInterval(timer); play(); };
+      dots.forEach((d) => d.addEventListener("click", () => { show(Number(d.dataset.i)); restart(); }));
+      heroRoom.addEventListener("mouseenter", () => clearInterval(timer));
+      heroRoom.addEventListener("mouseleave", play);
+      play();
     }
 
     // FAQ accordion — <details> has no native open/close animation, so the

@@ -11,7 +11,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "posters": "node scripts/optimize-posters.mjs"
+    "posters": "node scripts/optimize-posters.mjs",
+    "rooms": "node scripts/optimize-rooms.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

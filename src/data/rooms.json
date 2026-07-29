@@ -1,0 +1,17 @@
+{
+  "_comment": "Hero interiors. Managed by `npm run rooms` — drop a 16:9 shot into ./rooms, run it, then write the alt text here. Order is the slider order.",
+  "rooms": [
+    {
+      "file": "living-room",
+      "alt": "Ferrari and Rolls-Royce metal posters on a living room wall in a Dubai apartment"
+    },
+    {
+      "file": "home-office",
+      "alt": "Kawasaki and Ducati metal posters above a desk in a Dubai home office"
+    },
+    {
+      "file": "media-room",
+      "alt": "Ancient Castle and Ancient Warrior metal posters flanking a TV in a Dubai media room"
+    }
+  ]
+}

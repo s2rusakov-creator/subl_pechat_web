@@ -21,31 +21,15 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 /* ---------- parallax (all viewports) ----------
    Depth cues only: layers that should feel further away move less. */
 function parallax() {
-  // Hero backdrop drifts slower than the page, so the blurred photo reads
-  // as distance behind the panel.
-  const slides = document.querySelector(".hero-slider .slides");
-  if (slides) {
-    gsap.to(slides, {
-      yPercent: 12,
+  // The room photograph drifts slower than the page. Kept subtle: this is a
+  // real interior, and pushing it far enough to notice exposes the crop edges.
+  const room = document.querySelector(".hero-room-stage");
+  if (room) {
+    gsap.to(room, {
+      yPercent: 8,
       ease: "none",
       scrollTrigger: {
-        trigger: ".hero-slider",
-        start: "top top",
-        end: "bottom top",
-        scrub: 0.6,
-      },
-    });
-  }
-
-  // The hero panel rises slightly against the scroll — it is the nearest
-  // object in the scene, so it should move most.
-  const panel = document.querySelector(".hero-panel");
-  if (panel) {
-    gsap.to(panel, {
-      yPercent: -9,
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".hero-slider",
+        trigger: ".hero-room",
         start: "top top",
         end: "bottom top",
         scrub: 0.6,

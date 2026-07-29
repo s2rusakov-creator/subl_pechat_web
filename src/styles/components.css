@@ -135,7 +135,122 @@
   border-radius: 2px;
 }
 
-/* ---------- hero ----------
+/* ---------- hero: the product in a room ----------
+   Replaces the floating-panel hero. The panels are in the photograph now, so
+   the job here is only to keep the headline legible over it without washing
+   out the part of the shot that sells — the lit wall on the right. */
+.hero-room {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: var(--bg-deep);
+  margin-top: -80px;              /* the transparent nav sits over the room */
+  min-height: min(86vh, 840px);
+}
+/* The stage owns the band the shots live in, so stacking them absolutely does
+   not have to reckon with the hero's own padding. */
+.hero-room-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-room-shot {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.1s var(--ease);
+}
+.hero-room-shot.active { opacity: 1; }
+.hero-room-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Biased right so the lit panels survive the crop on narrower desktops. */
+  object-position: 68% center;
+}
+/* Left-to-right gradient only: the room's own left wall is already dark, so a
+   flat overlay would kill the window view for no gain. */
+.hero-room-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(1, 29, 28, 0.93) 0%, rgba(1, 29, 28, 0.8) 30%,
+      rgba(1, 38, 36, 0.28) 58%, rgba(1, 38, 36, 0) 78%),
+    linear-gradient(180deg, rgba(1, 29, 28, 0.6) 0%, rgba(1, 29, 28, 0) 22%,
+      rgba(1, 29, 28, 0) 68%, rgba(1, 29, 28, 0.72) 100%);
+}
+.hero-room-inner {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(96px, 10vw, 132px) clamp(48px, 6vw, 80px);
+}
+.hero-room .hero-copy { max-width: 34rem; }
+.hero-room h1 {
+  font-size: clamp(2.6rem, 5.6vw, 4.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.048em;
+  margin-bottom: 22px;
+}
+.hero-room h1 em { font-style: normal; display: block; }
+.hero-room p {
+  font-size: clamp(1.02rem, 1.4vw, 1.18rem);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 40ch;
+  margin-bottom: 32px;
+}
+.hero-room .eyebrow { color: var(--ink-soft); }
+
+/* Phones get a crop of the same shot — the full 16:9 room would render the
+   panels too small to read. Image on top, copy underneath. */
+.hero-room-dots {
+  display: flex;
+  gap: 8px;
+  margin-top: clamp(28px, 3vw, 40px);
+}
+
+@media (max-width: 860px) {
+  .hero-room {
+    display: block;
+    min-height: 0;
+    padding-top: 80px;
+  }
+  /* The stage becomes a normal block that sets the band height; the shots
+     stay stacked inside it so the crossfade still works. */
+  .hero-room-stage {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 900 / 873;
+  }
+  .hero-room-shot { display: block; }
+  .hero-room-shot img { object-position: center; }
+  .hero-room-scrim {
+    inset: auto 0 0 0;
+    height: 42%;
+    background: linear-gradient(180deg, rgba(1, 29, 28, 0) 0%, rgba(1, 29, 28, 0.9) 78%, var(--bg) 100%);
+  }
+  .hero-room-inner { padding-block: 28px clamp(40px, 7vw, 64px); }
+  .hero-room .hero-copy { max-width: none; }
+
+  /* Sat below the CTA and therefore under the fold on a 812px phone. Moved
+     onto the photograph, where the thing they control is actually visible. */
+  .hero-room-dots {
+    position: absolute;
+    z-index: 3;
+    right: 0;
+    /* .hero-room-inner is itself positioned, so this is measured from the top
+       of the copy block — which starts exactly where the photo ends. A negative
+       offset lifts the dots back onto the bottom of the image. */
+    top: -34px;
+    margin: 0;
+  }
+}
+
+/* ---------- legacy slider hero (kept for reference pages) ----------
    Photography stays (it is the product), but the canvas teal is
    pulled over it so the image sinks into the surface stack. */
 .hero-slider {
