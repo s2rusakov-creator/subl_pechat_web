@@ -1,7 +1,7 @@
 {
   "_comment": "Manage your shop here. Set your WhatsApp number and shop-wide prices once, then add/remove posters. Each poster: title, category, img, alt, and a short unique desc (good for SEO). Run 'npm run build' to publish.",
   "whatsapp": "971500000000",
-  "email": "hello@printsuae.com",
+  "email": "metalposterdubai@gmail.com",
   "fromPrice": 120,
   "sizes": [
     {
