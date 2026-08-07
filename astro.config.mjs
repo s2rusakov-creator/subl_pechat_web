@@ -3,7 +3,7 @@ import sitemap from "@astrojs/sitemap";
 
 // Set this to your real domain before launch — it drives canonical URLs + sitemap.
 export default defineConfig({
-  site: "https://printsuae.com",
+  site: "https://www.metalposterdubai.com",
   integrations: [
     sitemap({
       filter: (page) => !page.includes("/404"),
@@ -14,7 +14,9 @@ export default defineConfig({
       changefreq: "weekly",
       serialize(item) {
         const url = item.url;
-        if (url.endsWith("printsuae.com/")) return { ...item, priority: 1.0, changefreq: "weekly" };
+        // Match the homepage by path, not by domain string — hardcoding the host
+        // here silently demotes the homepage to 0.7 the next time the domain moves.
+        if (new URL(url).pathname === "/") return { ...item, priority: 1.0, changefreq: "weekly" };
         if (url.includes("/posters/") && !url.endsWith("/posters/"))
           return { ...item, priority: 0.6, changefreq: "monthly" };
         if (url.endsWith("/posters/")) return { ...item, priority: 0.9 };

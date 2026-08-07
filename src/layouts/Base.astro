@@ -12,6 +12,7 @@ const {
   jsonld = [],
   ogImage,
   ogType = "website",
+  robots = "index, follow, max-image-preview:large",
 } = Astro.props;
 
 const canonical = new URL(canonicalPath, Astro.site);
@@ -40,7 +41,7 @@ const gaId = site.ga4 || "";
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content={robots} />
     <meta name="theme-color" content="#012624" />
     <meta name="color-scheme" content="dark" />
     <meta name="author" content={site.name} />
